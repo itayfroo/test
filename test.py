@@ -49,27 +49,10 @@ def get_stock_symbol(company_name):
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
-        
-        # Check if the retrieved data is empty
-        if stock_data.empty:
-            st.warning("No data available for the specified date range.")
-            return None
-        
-        # Check if there are missing values in the data
-        if stock_data.isnull().values.any():
-            st.warning("Data contains missing values. Please check the data for completeness.")
-            return None
-
         return stock_data
-    except yf.YFinanceError as yf_error:
-        # Handle the specific exception related to the failed download
-        if "No timezone found, symbol may be delisted" in str(yf_error):
-            st.warning(f"Error retrieving data: {yf_error}. The symbol may be delisted.")
-        else:
-            st.error(f"Error retrieving data: {yf_error}")
-        
+    except Exception as e:
+        st.error(f"Error retrieving data: {e}")
         return None
-
 
 def plot_stock_data(stock_data):
     fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
@@ -270,6 +253,8 @@ def investment():
     company_name = st.text_input("Enter company name or item:")
     st.button('launch', on_click=click_button)
     if st.session_state.clicked:
+         
+
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:

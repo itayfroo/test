@@ -247,18 +247,14 @@ def investment():
     end_date = datetime.datetime.now().date()
     
     if st.button("Get Stock Symbol"):
-        st.write("Button Pressed")  # Debug statement to check if the button is pressed
+        st.write("Button Pressed")
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:
             st.write("Fetching stock symbol...")
-            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                stock_symbol = "AAPL"
-            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                stock_symbol = "NVDA"
-            else:
-                st.write("Fetching stock symbol...")
+            try:
                 stock_symbol = get_stock_symbol(company_name)
+                st.write(f"Fetched stock symbol: {stock_symbol}")
                 if stock_symbol:
                     st.write("Fetching stock data...")
                     stock_data = get_stock_data(stock_symbol, start_date, end_date)
@@ -272,6 +268,9 @@ def investment():
                         st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
                 else:
                     st.warning("Stock doesn't exist.")
+            except Exception as e:
+                st.error(f"Error fetching stock symbol: {e}")
+
 
 
         

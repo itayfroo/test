@@ -245,7 +245,6 @@ def stockanalyzer():
                         
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
-                    st.button("Try another stock")
             else:
                 st.warning("Stock doesn't exist.")    
 def investment():

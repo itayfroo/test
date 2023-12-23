@@ -171,6 +171,7 @@ st.set_page_config(
     layout="wide",
 )
 def stockanalyzer():
+    st.title("Stock Analyzer")
     company_name = st.text_input("Enter company name or item:")
 
     # Add date input widget
@@ -242,6 +243,5 @@ def stockanalyzer():
 
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-st.title("Stock Analyzer")
 if page == "Stock Analysis":
     stockanalyzer()

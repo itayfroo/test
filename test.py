@@ -22,29 +22,29 @@ def rotate_api_key():
     return api_keys[current_api_key_index]
 
 def get_stock_symbol(company_name):
-    for _ in range(len(api_keys)):
-        api_key = rotate_api_key()
-        base_url = "https://www.alphavantage.co/query"
-        function = "SYMBOL_SEARCH"
+    api_key = rotate_api_key()
+    base_url = "https://www.alphavantage.co/query"
+    function = "SYMBOL_SEARCH"
 
-        params = {
-            "function": function,
-            "keywords": company_name,
-            "apikey": api_key,
-        }
+    params = {
+        "function": function,
+        "keywords": company_name,
+        "apikey": api_key,
+    }
 
-        try:
-            response = requests.get(base_url, params=params)
-            data = response.json()
+    try:
+        response = requests.get(base_url, params=params)
+        data = response.json()
 
-            if "bestMatches" in data and data["bestMatches"]:
-                # Convert the symbol to uppercase before returning
-                stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
-                return stock_symbol
-        except Exception as e:
-            st.error(f"Error: {e}")
+        if "bestMatches" in data and data["bestMatches"]:
+            # Convert the symbol to uppercase before returning
+            stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
+            return stock_symbol
+    except Exception as e:
+        st.error(f"Error: {e}")
 
     return None
+
 
 def get_stock_data(symbol, start_date, end_date):
     try:

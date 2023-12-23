@@ -184,7 +184,12 @@ def stockanalyzer():
 
     end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
-    if st.button("Get Stock Symbol"):
+    form = st.form(key='get_stock_symbol_form')
+
+    button_get_stock_symbol = form.form_submit_button("Get Stock Symbol")
+
+    if button_get_stock_symbol:
+        form.write("Button Pressed")  # Debug statement to check if the button is pressed
         if company_name =="":
             st.warning("You have to enter a stock or a company name.")
         else:
@@ -208,11 +213,11 @@ def stockanalyzer():
                     lowest_point = stock_data['Close'].min()
                     highest_point = stock_data['Close'].max()
                     chart_data = pd.DataFrame({
-                                                    'Date': stock_data.index,
-                                                    'Stock Price': stock_data['Close'],
-                                                    'Lowest Point': lowest_point,
-                                                    'Highest Point': highest_point
-                                            })
+                                                'Date': stock_data.index,
+                                                'Stock Price': stock_data['Close'],
+                                                'Lowest Point': lowest_point,
+                                                'Highest Point': highest_point
+                                        })
                     st.line_chart(chart_data.set_index('Date'))
                     st.success(f"Highest Stock Price: ${round(highest_point, 2)}")
                     st.warning(f"Lowest Stock Price: ${round(lowest_point, 2)}")
@@ -231,9 +236,7 @@ def stockanalyzer():
                         with st.expander("💡 What is Linear Regression?"):
                             st.write("Linear Regression Simulation:")
                             linear_Regression(stock_data)
-                        
 
-                        
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
                     st.button("Try another stock")
@@ -252,9 +255,13 @@ def investment():
     start_date = "2022-01-01" 
     end_date = datetime.datetime.now().date()
     
-    if st.button("Get Stock Symbol"):
+    form = st.form(key='get_stock_symbol_form')
+
+    button_get_stock_symbol = form.form_submit_button("Get Stock Symbol")
+
+    if button_get_stock_symbol:
         st.session_state.button_get_stock_symbol = not st.session_state.button_get_stock_symbol
-        st.write("Button Pressed")  # Debug statement to check if the button is pressed
+        form.write("Button Pressed")  # Debug statement to check if the button is pressed
         
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
@@ -281,6 +288,7 @@ def investment():
                             st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
                     else:
                         st.warning("Stock doesn't exist.")
+
 
 
 

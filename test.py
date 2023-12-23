@@ -16,12 +16,12 @@ data=[]
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK','ZX5XTAKCAXGAYNBG',"XUKT2LY2NIC35B83"]
 
-for i in range(5):
-    if api_keys[i]:
-        api_key = api_keys[i]
+api_key = None 
+
+for key in api_keys:
+    if key:
+        api_key = key
         break
-    else:
-        pass
 
 
 def get_stock_symbol(company_name):

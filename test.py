@@ -258,13 +258,15 @@ def investment():
                 stock_symbol = "NVDA"
             else:
                 st.write("Fetching stock symbol...")
-                try:
-                    stock_symbol = get_stock_symbol(company_name)
-                except:
-                    st.warning("Failed")
+                
+                stock_symbol = get_stock_symbol(company_name)
+                
                 if stock_symbol:
                     st.write("Fetching stock data...")
-                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                    try:
+                        stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                    except:
+                        st.warning("Failed")
                     if stock_data is not None:
                         value = st.slider("If you were to invest: ", min_value=100, max_value=5000, value=100, step=50)
                         start_price = stock_data['Close'].iloc[0]

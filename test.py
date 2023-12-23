@@ -258,7 +258,10 @@ def investment():
                 stock_symbol = "NVDA"
             else:
                 st.write("Fetching stock symbol...")
-                stock_symbol = get_stock_symbol(company_name)
+                try:
+                    stock_symbol = get_stock_symbol(company_name)
+                except:
+                    st.warning("Failed")
                 if stock_symbol:
                     st.write("Fetching stock data...")
                     stock_data = get_stock_data(stock_symbol, start_date, end_date)

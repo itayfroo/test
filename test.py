@@ -242,41 +242,59 @@ def stockanalyzer():
 
 def investment():
     st.title("Investment")
+    
+    # Retrieve session state
+    if "button_get_stock_symbol" not in st.session_state:
+        st.session_state.button_get_stock_symbol = False
+
+    # Input widgets
     company_name = st.text_input("Enter company name or item:")
-    start_date = "2022-1-1" 
+    start_date = "2022-01-01" 
     end_date = datetime.datetime.now().date()
     
-    if st.button("Get Stock Symbol"):
-        st.write("Button Pressed")  # Debug statement to check if the button is pressed
+    form = st.form(key='get_stock_symbol_form')
+
+    button_get_stock_symbol = form.form_submit_button("Get Stock Symbol")
+
+    if button_get_stock_symbol:
+        st.session_state.button_get_stock_symbol = not st.session_state.button_get_stock_symbol
+        form.write("Button Pressed")  # Debug statement to check if the button is pressed
+        
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:
-            st.write("Fetching stock symbol...")
-            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                stock_symbol = "AAPL"
-            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                stock_symbol = "NVDA"
-            else:
+            if st.session_state.button_get_stock_symbol:
                 st.write("Fetching stock symbol...")
-                
-                stock_symbol = get_stock_symbol(company_name)
-                
-                if stock_symbol:
-                    st.write("Fetching stock data...")
-                    try:
-                        stock_data = get_stock_data(stock_symbol, start_date, end_date)
-                    except:
-                        st.warning("Failed")
-                    if stock_data is not None:
-                        value = st.slider("If you were to invest: ", min_value=100, max_value=5000, value=100, step=50)
-                        start_price = stock_data['Close'].iloc[0]
-                        end_price = stock_data['Close'].iloc[-1]
-                        percent_change = ((end_price - start_price) / start_price) * 100
-                        potential_returns = value * (1 + percent_change / 100)
-                        st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
-                        st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+                if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+                    stock_symbol = "AAPL"
+                elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+                    stock_symbol = "NVDA"
                 else:
-                    st.warning("Stock doesn't exist.")
+                    st.write("Fetching stock symbol...")
+                    stock_symbol = get_stock_symbol(company_name)
+                    if stock_symbol:
+                        st.write("Fetching stock data...")
+                        stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                        if stock_data is not None:
+                            st.write("Performing predictions...")
+                            predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                            predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+
+                            st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                            st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+
+                            # Investment slider
+                            value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
+                            start_price = stock_data['Close'].iloc[0]
+                            end_price = stock_data['Close'].iloc[-1]
+                            percent_change = ((end_price - start_price) / start_price) * 100
+                            potential_returns = value * (1 + percent_change / 100)
+                            st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
+                            st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+                    else:
+                        st.warning("Stock doesn't exist.")
+
+    
 
 
         

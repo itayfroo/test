@@ -19,9 +19,20 @@ api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAK
 api_key = None
 
 for key in api_keys:
-    if key and key.strip(): 
-        api_key = key
+    cleaned_key = key.strip()
+    if cleaned_key:
+        api_key = cleaned_key
         break
+
+print("Lengths of keys:")
+for key in api_keys:
+    print(f"{key}: {len(key)}")
+
+if api_key:
+    st.write(f"Selected API key: {api_key}")
+else:
+    st.warning("No valid API key found.")
+
 
 def get_stock_symbol(company_name):
     global api_key

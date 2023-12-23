@@ -251,14 +251,12 @@ def investment():
     company_name = st.text_input("Enter company name or item:")
     start_date = "2022-01-01" 
     end_date = datetime.datetime.now().date()
-    
-    form = st.form(key='get_stock_symbol_form')
 
-    button_get_stock_symbol = form.form_submit_button("Get Stock Symbol")
+    button_get_stock_symbol = st.button("Get Stock Symbol")
 
     if button_get_stock_symbol:
         st.session_state.button_get_stock_symbol = not st.session_state.button_get_stock_symbol
-        form.write("Button Pressed")  # Debug statement to check if the button is pressed
+        st.write("Button Pressed")  # Debug statement to check if the button is pressed
         
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
@@ -293,8 +291,6 @@ def investment():
                             st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
                     else:
                         st.warning("Stock doesn't exist.")
-
-    
 
 
         

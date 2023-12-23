@@ -240,7 +240,7 @@ def stockanalyzer():
             else:
                 st.warning("Stock doesn't exist.")
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data(allow_output_mutation=True)
 def get_session_state():
     return st.session_state
 
@@ -296,7 +296,6 @@ def investment():
                     st.warning("Stock doesn't exist.")
             except Exception as e:
                 st.error(f"Error fetching stock symbol: {e}")
-
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":

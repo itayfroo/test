@@ -14,18 +14,17 @@ check = False
 
 data=[]
 
-api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK','ZX5XTAKCAXGAYNBG',"XUKT2LY2NIC35B83"]
+api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83"]
 
-api_key = None 
+api_key = None
 
 for key in api_keys:
-    if key:
+    if key and key.strip(): 
         api_key = key
         break
 
-
 def get_stock_symbol(company_name):
-    api_key = "XUKT2LY2NIC35B83"
+    global api_key
     st.write(api_key)      
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"

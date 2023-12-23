@@ -252,9 +252,8 @@ def investment():
     start_date = "2022-01-01" 
     end_date = datetime.datetime.now().date()
 
-    button_get_stock_symbol = st.button("Get Stock Symbol")
-
-    if button_get_stock_symbol:
+    # Separate button for stock symbol retrieval
+    if st.button("Get Stock Symbol"):
         st.session_state.button_get_stock_symbol = not st.session_state.button_get_stock_symbol
         st.write("Button Pressed")  # Debug statement to check if the button is pressed
         
@@ -291,6 +290,7 @@ def investment():
                             st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
                     else:
                         st.warning("Stock doesn't exist.")
+
 
 
         

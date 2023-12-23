@@ -294,7 +294,7 @@ def investment():
                     st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
 
             else:
-                st.warning("Stock doesn't exist.")
+                st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])

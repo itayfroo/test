@@ -240,7 +240,7 @@ def stockanalyzer():
             else:
                 st.warning("Stock doesn't exist.")
 
-def investemnt():
+def investment():
     st.title("Investment")
     company_name = st.text_input("Enter company name or item:")
     start_date = "2022-1-1" 
@@ -272,9 +272,10 @@ def investemnt():
                     st.warning("Stock doesn't exist.")
 
 
+
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
-    investemnt()
+    investment()

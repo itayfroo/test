@@ -184,12 +184,7 @@ def stockanalyzer():
 
     end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
-    form = st.form(key='get_stock_symbol_form')
-
-    button_get_stock_symbol = form.form_submit_button("Get Stock Symbol")
-
-    if button_get_stock_symbol:
-        form.write("Button Pressed")  # Debug statement to check if the button is pressed
+    if st.button("Get Stock Symbol"):
         if company_name =="":
             st.warning("You have to enter a stock or a company name.")
         else:
@@ -213,11 +208,11 @@ def stockanalyzer():
                     lowest_point = stock_data['Close'].min()
                     highest_point = stock_data['Close'].max()
                     chart_data = pd.DataFrame({
-                                                'Date': stock_data.index,
-                                                'Stock Price': stock_data['Close'],
-                                                'Lowest Point': lowest_point,
-                                                'Highest Point': highest_point
-                                        })
+                                                    'Date': stock_data.index,
+                                                    'Stock Price': stock_data['Close'],
+                                                    'Lowest Point': lowest_point,
+                                                    'Highest Point': highest_point
+                                            })
                     st.line_chart(chart_data.set_index('Date'))
                     st.success(f"Highest Stock Price: ${round(highest_point, 2)}")
                     st.warning(f"Lowest Stock Price: ${round(lowest_point, 2)}")
@@ -236,7 +231,9 @@ def stockanalyzer():
                         with st.expander("💡 What is Linear Regression?"):
                             st.write("Linear Regression Simulation:")
                             linear_Regression(stock_data)
+                        
 
+                        
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
                     st.button("Try another stock")
@@ -245,51 +242,36 @@ def stockanalyzer():
 
 def investment():
     st.title("Investment")
-    
-    # Retrieve session state
-    if "button_get_stock_symbol" not in st.session_state:
-        st.session_state.button_get_stock_symbol = False
-
-    # Input widgets
     company_name = st.text_input("Enter company name or item:")
-    start_date = "2022-01-01" 
+    start_date = "2022-1-1" 
     end_date = datetime.datetime.now().date()
     
-    form = st.form(key='get_stock_symbol_form')
-
-    button_get_stock_symbol = form.form_submit_button("Get Stock Symbol")
-
-    if button_get_stock_symbol:
-        st.session_state.button_get_stock_symbol = not st.session_state.button_get_stock_symbol
-        form.write("Button Pressed")  # Debug statement to check if the button is pressed
-        
+    if st.button("Get Stock Symbol"):
+        st.write("Button Pressed")  # Debug statement to check if the button is pressed
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:
-            if st.session_state.button_get_stock_symbol:
+            st.write("Fetching stock symbol...")
+            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+                stock_symbol = "AAPL"
+            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+                stock_symbol = "NVDA"
+            else:
                 st.write("Fetching stock symbol...")
-                if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                    stock_symbol = "AAPL"
-                elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                    stock_symbol = "NVDA"
+                stock_symbol = get_stock_symbol(company_name)
+                if stock_symbol:
+                    st.write("Fetching stock data...")
+                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                    if stock_data is not None:
+                        value = st.slider("If you were to invest: ", min_value=100, max_value=5000, value=100, step=50)
+                        start_price = stock_data['Close'].iloc[0]
+                        end_price = stock_data['Close'].iloc[-1]
+                        percent_change = ((end_price - start_price) / start_price) * 100
+                        potential_returns = value * (1 + percent_change / 100)
+                        st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
+                        st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
                 else:
-                    st.write("Fetching stock symbol...")
-                    stock_symbol = get_stock_symbol(company_name)
-                    if stock_symbol:
-                        st.write("Fetching stock data...")
-                        stock_data = get_stock_data(stock_symbol, start_date, end_date)
-                        if stock_data is not None:
-                            value = st.slider("If you were to invest: ", min_value=100, max_value=5000, value=100, step=50)
-                            start_price = stock_data['Close'].iloc[0]
-                            end_price = stock_data['Close'].iloc[-1]
-                            percent_change = ((end_price - start_price) / start_price) * 100
-                            potential_returns = value * (1 + percent_change / 100)
-                            st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
-                            st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
-                    else:
-                        st.warning("Stock doesn't exist.")
-
-
+                    st.warning("Stock doesn't exist.")
 
 
         

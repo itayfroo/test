@@ -240,16 +240,21 @@ def stockanalyzer():
             else:
                 st.warning("Stock doesn't exist.")
 
+
+if 'clicked' not in st.session_state:
+    st.session_state.clicked = False
+
+def click_button():
+    st.session_state.clicked = True
+    
 def investment():
     st.title("Investment")
     start_date = "2022-1-1"
     end_date = datetime.datetime.now().date()
-    # Input widget for company name
     company_name = st.text_input("Enter company name or item:")
-
-    # Button for stock symbol retrieval
-    if st.button("Get Stock Symbol"):
-        st.write("Button Pressed")  # Debug statement to check if the button is pressed
+    st.button('Click me', on_click=click_button)
+    if st.session_state.clicked:
+         
 
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")

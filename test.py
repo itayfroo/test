@@ -285,7 +285,8 @@ def investment():
                 st.write("Fetching stock data...")
                 stock_data = get_stock_data(stock_symbol, start_date, end_date)
                 if stock_data is not None:
-                    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50,on_change=click_button)
+                    key = "myvalues"
+                    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50,key=key)
                     start_price = stock_data['Close'].iloc[0]
                     end_price = stock_data['Close'].iloc[-1]
                     percent_change = ((end_price - start_price) / start_price) * 100

@@ -240,14 +240,39 @@ def stockanalyzer():
             else:
                 st.warning("Stock doesn't exist.")
 
+@st.cache(allow_output_mutation=True)
+def get_session_state():
+    return st.session_state
+
 def investment():
     st.title("Investment")
-    company_name = st.text_input("Enter company name or item:")
-    start_date = "2022-1-1" 
-    end_date = datetime.datetime.now().date()
     
+    # Retrieve session state
+    session_state = get_session_state()
+    
+    # Initialize session state if not already done
+    if 'company_name' not in session_state:
+        session_state.company_name = ""
+    
+    if 'stock_symbol' not in session_state:
+        session_state.stock_symbol = ""
+    
+    if 'stock_data' not in session_state:
+        session_state.stock_data = None
+    
+    if 'value' not in session_state:
+        session_state.value = 100
+    
+    # Input widgets
+    company_name = st.text_input("Enter company name or item:", session_state.company_name)
+    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=session_state.value, step=50)
+    
+    # Button to fetch stock symbol
     if st.button("Get Stock Symbol"):
-        st.write("Button Pressed")
+        # Update session state
+        session_state.company_name = company_name
+        session_state.value = value
+        
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:
@@ -257,9 +282,10 @@ def investment():
                 st.write(f"Fetched stock symbol: {stock_symbol}")
                 if stock_symbol:
                     st.write("Fetching stock data...")
-                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                    stock_data = get_stock_data(stock_symbol, "2022-01-01", datetime.datetime.now().date())
+                    session_state.stock_symbol = stock_symbol
+                    session_state.stock_data = stock_data
                     if stock_data is not None:
-                        value = st.slider("If you were to invest: ", min_value=100, max_value=5000, value=100, step=50)
                         start_price = stock_data['Close'].iloc[0]
                         end_price = stock_data['Close'].iloc[-1]
                         percent_change = ((end_price - start_price) / start_price) * 100
@@ -270,8 +296,6 @@ def investment():
                     st.warning("Stock doesn't exist.")
             except Exception as e:
                 st.error(f"Error fetching stock symbol: {e}")
-
-
 
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])

@@ -265,13 +265,12 @@ def investment():
     
     # Input widgets
     company_name = st.text_input("Enter company name or item:", session_state.company_name)
-    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=session_state.value, step=50)
+    
     
     # Button to fetch stock symbol
     if st.button("Get Stock Symbol"):
         # Update session state
-        session_state.company_name = company_name
-        session_state.value = value
+        
         
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
@@ -286,6 +285,9 @@ def investment():
                     session_state.stock_symbol = stock_symbol
                     session_state.stock_data = stock_data
                     if stock_data is not None:
+                        value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=session_state.value, step=50)
+                        session_state.company_name = company_name
+                        session_state.value = value
                         start_price = stock_data['Close'].iloc[0]
                         end_price = stock_data['Close'].iloc[-1]
                         percent_change = ((end_price - start_price) / start_price) * 100

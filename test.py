@@ -170,6 +170,14 @@ st.set_page_config(
     page_icon=r"icons8-stock-48.png",
     layout="wide",
 )
+
+
+
+if 'clicked' not in st.session_state:
+    st.session_state.clicked = False
+
+def click_button():
+    st.session_state.clicked = True
 def stockanalyzer():
     st.title("Stock Analyzer")
     company_name = st.text_input("Enter company name or item:")
@@ -184,7 +192,8 @@ def stockanalyzer():
 
     end_date = datetime.datetime.now().date()  # Set end date to the current live date
 
-    if st.button("Get Stock Symbol"):
+    st.button('Analyze', on_click=click_button)
+    if st.session_state.clicked:
         if company_name =="":
             st.warning("You have to enter a stock or a company name.")
         else:
@@ -238,21 +247,13 @@ def stockanalyzer():
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
                     st.button("Try another stock")
             else:
-                st.warning("Stock doesn't exist.")
-
-
-if 'clicked' not in st.session_state:
-    st.session_state.clicked = False
-
-def click_button():
-    st.session_state.clicked = True
-    
+                st.warning("Stock doesn't exist.")    
 def investment():
     st.title("Investment")
     start_date = "2022-1-1"
     end_date = datetime.datetime.now().date()
     company_name = st.text_input("Enter company name or item:")
-    st.button('Click me', on_click=click_button)
+    st.button('launch', on_click=click_button)
     if st.session_state.clicked:
          
 

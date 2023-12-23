@@ -288,7 +288,7 @@ def investment():
                     value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
                     start_price = stock_data['Close'].iloc[0]
                     end_price = stock_data['Close'].iloc[-1]
-                    percent_change = ((end_price - start_price) / start_price) * 100
+                    percent_change = ((end_price - start_price) / start_price) / 100
                     potential_returns = value - (value * percent_change)
                     st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
                     st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")

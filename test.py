@@ -22,7 +22,8 @@ def rotate_api_key():
     return api_keys[current_api_key_index]
 
 def get_stock_symbol(company_name):
-    api_key = rotate_api_key()
+    #api_key = rotate_api_key()
+    api_key = "XUKT2LY2NIC35B83"
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 

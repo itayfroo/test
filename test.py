@@ -243,5 +243,5 @@ def stockanalyzer():
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 st.title("Stock Analyzer")
-if page == "Home":
+if page == "Stock Analysis":
     stockanalyzer()

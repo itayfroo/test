@@ -246,8 +246,8 @@ def stockanalyzer():
                             predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
                             time.sleep(1)  
 
-                        st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                        st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+                        st.write(f"Approximate tomorrow's stock value (Linear Regression): {predicted_value_lr:.2f}$")
+                        st.write(f"Approximate tomorrow's stock value (LSTM): {predicted_value_lstm:.2f}$")
 
                         with st.expander("💡 What is LSTM?"):
                             display_lstm_info()

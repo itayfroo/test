@@ -170,76 +170,78 @@ st.set_page_config(
     page_icon=r"icons8-stock-48.png",
     layout="wide",
 )
+def stockanalyzer():
+    company_name = st.text_input("Enter company name or item:")
+
+    # Add date input widget
+    min_date = datetime.date(2022, 1, 1)
+    max_date = datetime.datetime.now() - datetime.timedelta(days=16)
+    start_date = st.date_input("Select start date:", 
+                            min_value=min_date, 
+                            max_value=max_date, 
+                            value=min_date)
+
+    end_date = datetime.datetime.now().date()  # Set end date to the current live date
+
+    if st.button("Get Stock Symbol"):
+        if company_name =="":
+            st.warning("You have to enter a stock or a company name.")
+        else:
+            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+                stock_symbol = "AAPL"
+            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+                stock_symbol = "NVDA"
+            else:
+                with st.spinner("Fetching stock symbol..."):
+                    stock_symbol = get_stock_symbol(company_name)
+
+            if stock_symbol:
+                st.title("Stock Price Visualization App")
+                st.write(f"Displaying stock data for {stock_symbol}")
+
+                with st.spinner("Fetching stock data..."):
+                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+
+                if stock_data is not None:
+                    plot_stock_data(stock_data)
+                    lowest_point = stock_data['Close'].min()
+                    highest_point = stock_data['Close'].max()
+                    chart_data = pd.DataFrame({
+                                                    'Date': stock_data.index,
+                                                    'Stock Price': stock_data['Close'],
+                                                    'Lowest Point': lowest_point,
+                                                    'Highest Point': highest_point
+                                            })
+                    st.line_chart(chart_data.set_index('Date'))
+                    st.success(f"Highest Stock Price: ${round(highest_point, 2)}")
+                    st.warning(f"Lowest Stock Price: ${round(lowest_point, 2)}")
+                    try:
+                        with st.spinner("Performing predictions..."):
+                            predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                            predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                            time.sleep(1)  
+
+                        st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
+                        st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
+
+                        with st.expander("💡 What is LSTM?"):
+                            display_lstm_info()
+
+                        with st.expander("💡 What is Linear Regression?"):
+                            st.write("Linear Regression Simulation:")
+                            linear_Regression(stock_data)
+                        
+
+                        
+                    except:
+                        st.warning("Not enough info for an AI approximation, please try an earlier date.")
+                    st.button("Try another stock")
+            else:
+                st.warning("Stock doesn't exist.")
+
+
         
-
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 st.title("Stock Analyzer")
-
-company_name = st.text_input("Enter company name or item:")
-
-# Add date input widget
-min_date = datetime.date(2022, 1, 1)
-max_date = datetime.datetime.now() - datetime.timedelta(days=16)
-start_date = st.date_input("Select start date:", 
-                           min_value=min_date, 
-                           max_value=max_date, 
-                           value=min_date)
-
-end_date = datetime.datetime.now().date()  # Set end date to the current live date
-
-if st.button("Get Stock Symbol"):
-    if company_name =="":
-        st.warning("You have to enter a stock or a company name.")
-    else:
-        if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-            stock_symbol = "AAPL"
-        elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-            stock_symbol = "NVDA"
-        else:
-            with st.spinner("Fetching stock symbol..."):
-                stock_symbol = get_stock_symbol(company_name)
-
-        if stock_symbol:
-            st.title("Stock Price Visualization App")
-            st.write(f"Displaying stock data for {stock_symbol}")
-
-            with st.spinner("Fetching stock data..."):
-                stock_data = get_stock_data(stock_symbol, start_date, end_date)
-
-            if stock_data is not None:
-                plot_stock_data(stock_data)
-                lowest_point = stock_data['Close'].min()
-                highest_point = stock_data['Close'].max()
-                chart_data = pd.DataFrame({
-                                                'Date': stock_data.index,
-                                                'Stock Price': stock_data['Close'],
-                                                'Lowest Point': lowest_point,
-                                                'Highest Point': highest_point
-                                        })
-                st.line_chart(chart_data.set_index('Date'))
-                st.success(f"Highest Stock Price: ${round(highest_point, 2)}")
-                st.warning(f"Lowest Stock Price: ${round(lowest_point, 2)}")
-                try:
-                    with st.spinner("Performing predictions..."):
-                        predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                        predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-                        time.sleep(1)  
-
-                    st.write(f"Approximate tomorrow's stock value (Linear Regression): ${predicted_value_lr:.2f}")
-                    st.write(f"Approximate tomorrow's stock value (LSTM): ${predicted_value_lstm:.2f}")
-
-                    with st.expander("💡 What is LSTM?"):
-                        display_lstm_info()
-
-                    with st.expander("💡 What is Linear Regression?"):
-                        st.write("Linear Regression Simulation:")
-                        linear_Regression(stock_data)
-                    
-
-                    
-                except:
-                    st.warning("Not enough info for an AI approximation, please try an earlier date.")
-                st.button("Try another stock")
-        else:
-            st.warning("Stock doesn't exist.")
-
-
+if page == "Home":
+    stockanalyzer()

@@ -245,31 +245,34 @@ def investment():
     company_name = st.text_input("Enter company name or item:")
     start_date = "2022-1-1" 
     end_date = datetime.datetime.now().date()
-    
-    if st.button("Get Stock Symbol"):
-        st.write("Button Pressed")
-        if company_name == "":
-            st.warning("You have to enter a stock or a company name.")
-        else:
-            st.write("Fetching stock symbol...")
-            try:
-                stock_symbol = get_stock_symbol(company_name)
-                st.write(f"Fetched stock symbol: {stock_symbol}")
-                if stock_symbol:
-                    st.write("Fetching stock data...")
-                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
-                    if stock_data is not None:
-                        value = st.slider("If you were to invest: ", min_value=100, max_value=5000, value=100, step=50)
-                        start_price = stock_data['Close'].iloc[0]
-                        end_price = stock_data['Close'].iloc[-1]
-                        percent_change = ((end_price - start_price) / start_price) * 100
-                        potential_returns = value * (1 + percent_change / 100)
-                        st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
-                        st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
-                else:
-                    st.warning("Stock doesn't exist.")
-            except Exception as e:
-                st.error(f"Error fetching stock symbol: {e}")
+    if "button1" not in st.session_state:
+        st.session_state["button1"] = False
+        
+    if st.button("button1"):
+        if st.session_state["button1"]:
+            st.session_state["button1"] = not st.session_state["button1"]
+            if company_name == "":
+                st.warning("You have to enter a stock or a company name.")
+            else:
+                st.write("Fetching stock symbol...")
+                try:
+                    stock_symbol = get_stock_symbol(company_name)
+                    st.write(f"Fetched stock symbol: {stock_symbol}")
+                    if stock_symbol:
+                        st.write("Fetching stock data...")
+                        stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                        if stock_data is not None:
+                            value = st.slider("If you were to invest: ", min_value=100, max_value=5000, value=100, step=50)
+                            start_price = stock_data['Close'].iloc[0]
+                            end_price = stock_data['Close'].iloc[-1]
+                            percent_change = ((end_price - start_price) / start_price) * 100
+                            potential_returns = value * (1 + percent_change / 100)
+                            st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
+                            st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+                    else:
+                        st.warning("Stock doesn't exist.")
+                except Exception as e:
+                    st.error(f"Error fetching stock symbol: {e}")
 
 
 

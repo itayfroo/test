@@ -17,12 +17,17 @@ data=[]
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK','ZX5XTAKCAXGAYNBG',"XUKT2LY2NIC35B83"]
 
 
-def rotate_api_key():
-    global api_keys
-    return api_keys[random.randint(0, 4)]
+
 
 def get_stock_symbol(company_name):
-    api_key = rotate_api_key()
+    global api_keys
+    for i in range(5):
+        if api_keys[i]:
+            api_key = api_keys[i]
+            break
+        else:
+            pass
+          
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 

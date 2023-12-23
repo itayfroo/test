@@ -267,15 +267,12 @@ def investemnt():
                             potential_returns = value * (1 + percent_change / 100)
                             st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
                             st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+                else:
+                    st.warning("Stock doesn't exist.")
 
-
-
-
-                    
-                    
-                    
-                    
-            
+        
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":
     stockanalyzer()
+elif page == "real time stock investment":
+    investemnt()

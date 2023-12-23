@@ -182,7 +182,6 @@ def stockanalyzer():
     st.title("Stock Analyzer")
     company_name = st.text_input("Enter company name or item:")
 
-    # Add date input widget
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
     start_date = st.date_input("Select start date:", 
@@ -190,7 +189,7 @@ def stockanalyzer():
                             max_value=max_date, 
                             value=min_date)
 
-    end_date = datetime.datetime.now().date()  # Set end date to the current live date
+    end_date = datetime.datetime.now().date()  
 
     st.button('Analyze', on_click=click_button)
     if st.session_state.clicked:
@@ -247,6 +246,7 @@ def stockanalyzer():
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
             else:
                 st.warning("Stock doesn't exist.")    
+    st.session_state.clicked = False
 def investment():
     st.title("Investment")
     start_date = "2022-1-1"
@@ -272,7 +272,7 @@ def investment():
             else:
                 st.warning("Stock doesn't exist.")
 
-        
+    st.session_state.clicked = False  
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":
     stockanalyzer()

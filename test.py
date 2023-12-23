@@ -9,6 +9,8 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
+from fuzzywuzzy import process
+
 check = False
 
 data=[]
@@ -22,29 +24,32 @@ def rotate_api_key():
     return api_keys[current_api_key_index]
 
 def get_stock_symbol(company_name):
-    for _ in range(len(api_keys)):
-        api_key = rotate_api_key()
-        base_url = "https://www.alphavantage.co/query"
-        function = "SYMBOL_SEARCH"
+    # Use fuzzy matching to find the best match from the list of known companies
+    matches = process.extract(company_name, [company[0] for company in known_companies], limit=1)
 
-        params = {
-            "function": function,
-            "keywords": company_name,
-            "apikey": api_key,
-        }
+    # Check if the best match meets a certain similarity threshold
+    best_match, similarity_score = matches[0]
+    if similarity_score >= 80:  # Adjust the threshold based on your needs
+        stock_symbol = [company[1] for company in known_companies if company[0] == best_match][0]
+        return stock_symbol.upper()
 
-        try:
-            response = requests.get(base_url, params=params)
-            data = response.json()
+    # If no suitable match is found, try using yfinance to get the stock symbol
+    st.warning(f"No matching stock symbol found for '{company_name}'. Attempting to retrieve using yfinance.")
 
-            if "bestMatches" in data and data["bestMatches"]:
-                # Convert the symbol to uppercase before returning
-                stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
-                return stock_symbol
-        except Exception as e:
-            st.error(f"Error: {e}")
+    try:
+        # Use yfinance to get the stock symbol
+        ticker = yf.Ticker(company_name)
+        stock_info = ticker.info
 
+        if stock_info and 'symbol' in stock_info:
+            return stock_info['symbol'].upper()
+    except Exception as e:
+        st.error(f"Error retrieving stock symbol from yfinance: {e}")
+
+    # If all attempts fail, return None
+    st.warning("No matching stock symbol found.")
     return None
+
 
 def get_stock_data(symbol, start_date, end_date):
     try:

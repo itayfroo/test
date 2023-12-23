@@ -258,8 +258,19 @@ def investment():
 
             if stock_symbol:
                 st.write(f"Stock symbol for {company_name}: {stock_symbol}")
+
+                # Now, add the rest of your code for fetching stock data and performing calculations
+
+                # Example:
+                st.write("Fetching stock data...")
+                stock_data = get_stock_data(stock_symbol, start_date, end_date)
+
+                if stock_data is not None:
+                    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
+                    st.write(f"Perform calculations and display results here...")
             else:
                 st.warning("Stock doesn't exist.")
+
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":

@@ -14,14 +14,14 @@ check = False
 
 data=[]
 
-def get_random_api_key():
-    api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83"]
-    return random.choice(api_keys)
+api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83"]
 
-# Function to get stock symbol
+
+
 def get_stock_symbol(company_name):
-    api_key = st.session_state.api_key
-    st.write(api_key)
+    global api_keys
+    api_key = api_keys[random.randint(0,4)]  
+    st.write(api_key)      
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 
@@ -43,7 +43,6 @@ def get_stock_symbol(company_name):
         st.error(f"Error: {e}")
 
     return None
-
 
 
 def get_stock_data(symbol, start_date, end_date):

@@ -21,8 +21,7 @@ api_key = api_keys[random.randint(0,len(api_keys))]
 
 
 def get_stock_symbol(company_name):
-    global api_key  
-    st.write(api_key)      
+    global api_key    
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 
@@ -261,7 +260,7 @@ def stockanalyzer():
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
             else:
-                st.warning("Stock doesn't exist.")    
+                st.warning(f"Stock doesn't exist.\ntry again or check your input.")    
     
 def investment():
     st.title("Investment")

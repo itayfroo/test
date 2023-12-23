@@ -246,7 +246,7 @@ def stockanalyzer():
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
             else:
                 st.warning("Stock doesn't exist.")    
-    st.session_state.clicked = False
+        st.session_state.clicked = False
 def investment():
     st.title("Investment")
     start_date = "2022-1-1"
@@ -254,8 +254,6 @@ def investment():
     company_name = st.text_input("Enter company name or item:")
     st.button('launch', on_click=click_button)
     if st.session_state.clicked:
-         
-
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:
@@ -272,7 +270,7 @@ def investment():
             else:
                 st.warning("Stock doesn't exist.")
 
-    st.session_state.clicked = False  
+        st.session_state.clicked = False  
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":
     stockanalyzer()

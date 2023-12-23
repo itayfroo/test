@@ -246,32 +246,30 @@ def get_session_state():
 
 def investment():
     st.title("Investment")
-    
+
     # Retrieve session state
     session_state = get_session_state()
-    
+
     # Initialize session state if not already done
     if 'company_name' not in session_state:
         session_state.company_name = ""
-    
+
     if 'stock_symbol' not in session_state:
         session_state.stock_symbol = ""
-    
+
     if 'stock_data' not in session_state:
         session_state.stock_data = None
-    
+
     if 'value' not in session_state:
         session_state.value = 100
-    
+
     # Input widgets
     company_name = st.text_input("Enter company name or item:", session_state.company_name)
-    
-    
+
     # Button to fetch stock symbol
     if st.button("Get Stock Symbol"):
         # Update session state
-        
-        
+
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:

@@ -270,14 +270,12 @@ def investment():
     company_name = st.text_input("Enter company name or item:")
     st.button('launch', on_click=click_button)
     if st.session_state.clicked:
-         
-
         if company_name == "":
             st.warning("You have to enter a stock or a company name.")
         else:
             st.write("Fetching stock symbol...")
             stock_symbol = get_stock_symbol(company_name)
-
+            st.write(stock_symbol)
             if stock_symbol:
                 st.write(f"Stock symbol for {company_name}: {stock_symbol}")
                 st.write("Fetching stock data...")

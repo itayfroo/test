@@ -25,7 +25,7 @@ for key in api_keys:
 
 
 def get_stock_symbol(company_name):
-    global api_key
+    api_key = "XUKT2LY2NIC35B83"
     st.write(api_key)      
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"

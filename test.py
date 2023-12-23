@@ -298,8 +298,6 @@ def investment():
                 st.error(f"Error fetching stock symbol: {e}")
 
 
-
-
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":

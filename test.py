@@ -242,7 +242,8 @@ def stockanalyzer():
 
 def investment():
     st.title("Investment")
-
+    start_date = "2022-1-1"
+    end_date = datetime.datetime.now().date()
     # Input widget for company name
     company_name = st.text_input("Enter company name or item:")
 

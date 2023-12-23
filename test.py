@@ -9,21 +9,20 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
+import random
 check = False
 
 data=[]
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK','ZX5XTAKCAXGAYNBG',"XUKT2LY2NIC35B83"]
-current_api_key_index = 0
+
 
 def rotate_api_key():
-    global current_api_key_index
-    current_api_key_index = (current_api_key_index + 1) % len(api_keys)
-    return api_keys[current_api_key_index]
+    global api_keys
+    return api_keys[random(0,4)]
 
 def get_stock_symbol(company_name):
-    #api_key = rotate_api_key()
-    api_key = "XUKT2LY2NIC35B83"
+    api_key = rotate_api_key()
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 

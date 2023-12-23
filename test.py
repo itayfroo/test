@@ -203,7 +203,6 @@ def stockanalyzer():
             else:
                 with st.spinner("Fetching stock symbol..."):
                     stock_symbol = get_stock_symbol(company_name)
-
             if stock_symbol:
                 st.title("Stock Price Visualization App")
                 st.write(f"Displaying stock data for {stock_symbol}")

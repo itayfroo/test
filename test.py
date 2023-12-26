@@ -343,12 +343,12 @@ if st.session_state.clicked:
     st.session_state.username = st.text_input("Username:")
     st.session_state.password = st.text_input("Password:", type="password")
     
-    st.button('Sign up', on_click=click_button)
+    st.button('Sign-up', on_click=click_button)
     if st.session_state.clicked:
         with open("users.json", "r") as file:
             users = json.load(file)
 
-        st.button('Sign up', on_click=click_button)
+        st.button('Sign_up', on_click=click_button)
         if st.session_state.clicked:
             st.success("Logged in!")
             log_check =True

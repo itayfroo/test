@@ -18,7 +18,7 @@ data=[]
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83","9XZBYP0RSJFMOT4L"
             ,"L485NGI7NK2M6VFT","PS74H4D0OXVW2M22","X7RFFB0EHKNTH25O","EEINBBF6PX2GAO02","FLTAY1Z6W73ZVRQB","JDZLDTK95XWAYVEP"
             ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
-api_key = api_keys[random.randint(0,len(api_keys)-1)]  
+api_key = api_keys[random.randint(0,len(api_keys))]  
 
 def get_stock_symbol_from_json(company_name):
     try:
@@ -227,10 +227,6 @@ st.set_page_config(
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
-if 'sign_up_clicked' not in st.session_state:
-    st.session_state.sign_up_clicked = False
-
-
 def click_button():
     st.session_state.clicked = True
 def stockanalyzer():
@@ -341,25 +337,26 @@ st.title("Sign in page")
 
 
 if st.session_state.clicked:
-    if not st.session_state.sign_up_clicked:
-        # Sign-up logic
+    if 'sign_up_clicked' not in st.session_state:
+        # Initialize sign_up_clicked attribute
+        st.session_state.sign_up_clicked = False
+
         st.text("Enter your credentials:")
         st.session_state.username = st.text_input("Username:")
         st.session_state.password = st.text_input("Password:", type="password")
         
-        if st.button('Sign-up'):
+        if st.button('Sign-up', on_click=click_button):
             with open("users.json", "r") as file:
                 users = json.load(file)
 
             st.success("Account created! You can now log in.")
             st.session_state.sign_up_clicked = True
     else:
-        # Log-in logic
         st.text("Enter your credentials:")
         st.session_state.username = st.text_input("Username:")
         st.session_state.password = st.text_input("Password:", type="password")
         
-        if st.button('Log In'):
+        if st.button('Log In', on_click=click_button):
             # Check credentials in the 'users.json' file
             with open("users.json", "r") as file:
                 users = json.load(file)
@@ -369,7 +366,6 @@ if st.session_state.clicked:
                 log_check = True
             else:
                 st.error("Check for username or password mistakes")
-
 
 if log_check == True:
     page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])

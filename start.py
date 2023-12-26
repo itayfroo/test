@@ -46,7 +46,7 @@ def sign_in(username, password):
             users = json.load(file)
             if users[username] == password:
                 st.success("You have successfully logged in!")
-                from test import start
+                
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:

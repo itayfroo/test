@@ -331,20 +331,11 @@ def investment():
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
-def display_json_info():
-    try:
-        with open("stocks.json", "r") as json_file:
-            data = json.load(json_file)
-            st.write("Current information in stocks.json:")
-            st.write(json.dumps(data, indent=2))
-    except FileNotFoundError:
-        st.warning("stocks.json not found.")
-    except json.JSONDecodeError:
-        st.warning("Error decoding stocks.json.")
+
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
     investment()
-display_json_info()
+

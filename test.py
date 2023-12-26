@@ -20,13 +20,6 @@ api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAK
             ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
 api_key = api_keys[random.randint(0,len(api_keys))]  
 
-if 'clicked_sign_up' not in st.session_state:
-    st.session_state.clicked_sign_up = False
-
-if 'clicked_sign_in' not in st.session_state:
-    st.session_state.clicked_sign_in = False
-
-
 def get_stock_symbol_from_json(company_name):
     try:
         with open("stocks.json", "r") as json_file:
@@ -234,9 +227,8 @@ st.set_page_config(
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
-def click_button(button_name):
-    st.session_state[button_name] = True
-
+def click_button():
+    st.session_state.clicked = True
 def stockanalyzer():
     st.title("Stock Analyzer")
     company_name = st.text_input("Enter company name or item:")
@@ -339,66 +331,11 @@ def investment():
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
-istrue = False
-def load_users():
-    try:
-        with open('users.json', 'r') as file:
-            users = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        users = {}
-    return users
 
-def save_users(users):
-    with open('users.json', 'w') as file:
-        json.dump(users, file)
 
-def sign_up(username, password):
-    users = load_users()
-    if username in users:
-        st.success(f"{username} already signed up")
-    else:
-        users[username] = password
-        save_users(users)
-        st.success(f"Successfully signed up {username}")
-    istrue = True
-
-def sign_in(username, password):
-    users = load_users()
-    if username in users and users[username] == password:
-        st.success(f"Welcome back, {username}!")
-        istrue = True
-    else:
-        st.error("Invalid username or password")
-
-st.title("User Authentication App")
-
-# Sign-up button
-st.button('Sign Up', on_click=click_button, args=('clicked_sign_up',))
-if st.session_state.clicked_sign_up:
-    st.subheader("Sign Up")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    st.button('Confirm Sign Up', on_click=click_button, args=('clicked_sign_up',))
-    if st.session_state.clicked_sign_up:
-        sign_up(username, password)
-        st.success(f"Successfully signed up {username}")
-        st.session_state.clicked_sign_up = False  
-
-# Sign-in button
-st.button('Sign In', on_click=click_button, args=('clicked_sign_in',))
-if st.session_state.clicked_sign_in:
-    st.subheader("Sign In")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    st.button('Enter', on_click=click_button, args=('clicked_sign_in',))
-    if st.session_state.clicked_sign_in:
-        sign_in(username, password)
-        st.session_state.clicked_sign_in = False
-        
-if istrue == True:
-    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-    if page == "Stock Analysis":
-        stockanalyzer()
-    elif page == "real time stock investment":
-        investment()
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+if page == "Stock Analysis":
+    stockanalyzer()
+elif page == "real time stock investment":
+    investment()
 

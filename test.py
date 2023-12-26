@@ -332,10 +332,11 @@ def investment():
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 
-        
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-if page == "Stock Analysis":
-    stockanalyzer()
-elif page == "real time stock investment":
-    investment()
+from main import log_check 
+if log_check ==True:
+    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+    if page == "Stock Analysis":
+        stockanalyzer()
+    elif page == "real time stock investment":
+        investment()
 

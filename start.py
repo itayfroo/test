@@ -2,7 +2,7 @@ import streamlit as st
 import json
 import os
 
-istrue = False
+
 
 json_file_path = "users.json"
 
@@ -37,7 +37,7 @@ def sign_up(username, password):
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success("You have successfully signed up!")
-        istrue = True
+        
 
 # Function to sign in a user
 def sign_in(username, password):
@@ -46,7 +46,7 @@ def sign_in(username, password):
             users = json.load(file)
             if users[username] == password:
                 st.success("You have successfully logged in!")
-                istrue =True
+                import test
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:
@@ -71,5 +71,3 @@ elif page == "Sign In":
     password = st.text_input("Enter your password:", type="password")
     if st.button("Sign In"):
         sign_in(username, password)
-if istrue:
-    import test

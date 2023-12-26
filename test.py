@@ -227,6 +227,10 @@ st.set_page_config(
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
+if 'sign_up_clicked' not in st.session_state:
+    st.session_state.sign_up_clicked = False
+
+
 def click_button():
     st.session_state.clicked = True
 def stockanalyzer():
@@ -337,26 +341,25 @@ st.title("Sign in page")
 
 
 if st.session_state.clicked:
-    if 'sign_up_clicked' not in st.session_state:
-        # Initialize sign_up_clicked attribute
-        st.session_state.sign_up_clicked = False
-
+    if not st.session_state.sign_up_clicked:
+        # Sign-up logic
         st.text("Enter your credentials:")
         st.session_state.username = st.text_input("Username:")
         st.session_state.password = st.text_input("Password:", type="password")
         
-        if st.button('Sign-up', on_click=click_button):
+        if st.button('Sign-up'):
             with open("users.json", "r") as file:
                 users = json.load(file)
 
             st.success("Account created! You can now log in.")
             st.session_state.sign_up_clicked = True
     else:
+        # Log-in logic
         st.text("Enter your credentials:")
         st.session_state.username = st.text_input("Username:")
         st.session_state.password = st.text_input("Password:", type="password")
         
-        if st.button('Log In', on_click=click_button):
+        if st.button('Log In'):
             # Check credentials in the 'users.json' file
             with open("users.json", "r") as file:
                 users = json.load(file)
@@ -366,6 +369,7 @@ if st.session_state.clicked:
                 log_check = True
             else:
                 st.error("Check for username or password mistakes")
+
 
 if log_check == True:
     page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])

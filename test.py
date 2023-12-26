@@ -347,4 +347,4 @@ if page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
     investment()
-    display_json_info()
+display_json_info()

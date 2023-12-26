@@ -20,6 +20,13 @@ api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAK
             ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
 api_key = api_keys[random.randint(0,len(api_keys))]  
 
+if 'clicked_sign_up' not in st.session_state:
+    st.session_state.clicked_sign_up = False
+
+if 'clicked_sign_in' not in st.session_state:
+    st.session_state.clicked_sign_in = False
+
+
 def get_stock_symbol_from_json(company_name):
     try:
         with open("stocks.json", "r") as json_file:
@@ -227,8 +234,9 @@ st.set_page_config(
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
-def click_button():
-    st.session_state.clicked = True
+def click_button(button_name):
+    st.session_state[button_name] = True
+
 def stockanalyzer():
     st.title("Stock Analyzer")
     company_name = st.text_input("Enter company name or item:")
@@ -364,25 +372,28 @@ def sign_in(username, password):
 
 st.title("User Authentication App")
 
-
-
-st.button('sign up', on_click=click_button)
-if st.session_state.clicked:
+# Sign-up button
+st.button('Sign Up', on_click=click_button, args=('clicked_sign_up',))
+if st.session_state.clicked_sign_up:
     st.subheader("Sign Up")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    st.button('conform', on_click=click_button)
-    if st.session_state.clicked:
+    st.button('Confirm Sign Up', on_click=click_button, args=('clicked_sign_up',))
+    if st.session_state.clicked_sign_up:
         sign_up(username, password)
+        st.success(f"Successfully signed up {username}")
+        st.session_state.clicked_sign_up = False  
 
-st.button('sign in', on_click=click_button)
-if st.session_state.clicked:
+# Sign-in button
+st.button('Sign In', on_click=click_button, args=('clicked_sign_in',))
+if st.session_state.clicked_sign_in:
     st.subheader("Sign In")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    st.button('Enter', on_click=click_button)
-    if st.session_state.clicked:
+    st.button('Enter', on_click=click_button, args=('clicked_sign_in',))
+    if st.session_state.clicked_sign_in:
         sign_in(username, password)
+        st.session_state.clicked_sign_in = False
         
 if istrue == True:
     page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])

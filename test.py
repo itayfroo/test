@@ -364,22 +364,26 @@ def sign_in(username, password):
 
 st.title("User Authentication App")
 
-sign_up_button = st.button("Sign Up")
-sign_in_button = st.button("Sign In")
 
-if sign_up_button:
+
+st.button('sign up', on_click=click_button)
+if st.session_state.clicked:
     st.subheader("Sign Up")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    if st.button("Submit"):
+    st.button('conform', on_click=click_button)
+    if st.session_state.clicked:
         sign_up(username, password)
 
-elif sign_in_button:
+st.button('sign in', on_click=click_button)
+if st.session_state.clicked:
     st.subheader("Sign In")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
-    if st.button("Submit"):
+    st.button('Enter', on_click=click_button)
+    if st.session_state.clicked:
         sign_in(username, password)
+        
 if istrue == True:
     page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
     if page == "Stock Analysis":

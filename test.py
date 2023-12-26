@@ -338,25 +338,23 @@ st.title("Sign in page")
 
 if st.session_state.clicked:
     if 'sign_up_clicked' not in st.session_state:
-        # Initialize sign_up_clicked attribute
-        st.session_state.sign_up_clicked = False
-
         st.text("Enter your credentials:")
         st.session_state.username = st.text_input("Username:")
         st.session_state.password = st.text_input("Password:", type="password")
         
-        if st.button('Sign-up', on_click=click_button):
+        st.button('Sign-up', on_click=click_button)
+        if st.session_state.sign_up_clicked:
             with open("users.json", "r") as file:
                 users = json.load(file)
 
             st.success("Account created! You can now log in.")
-            st.session_state.sign_up_clicked = True
     else:
         st.text("Enter your credentials:")
         st.session_state.username = st.text_input("Username:")
         st.session_state.password = st.text_input("Password:", type="password")
         
-        if st.button('Log In', on_click=click_button):
+        st.button('Log In', on_click=click_button)
+        if st.session_state.clicked:
             # Check credentials in the 'users.json' file
             with open("users.json", "r") as file:
                 users = json.load(file)

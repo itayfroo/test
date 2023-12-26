@@ -301,7 +301,7 @@ def investment():
     st.title("Investment")
     start_date = "2022-1-1"
     end_date = datetime.datetime.now().date()
-    company_name = st.text_input("Enter company name or item:")
+    company_name = st.text_input("Enter company name or item:").upper()
     st.button('launch', on_click=click_button)
     if st.session_state.clicked:
         if company_name =="":
@@ -313,7 +313,7 @@ def investment():
                 stock_symbol = "NVDA"
             else:
                 with st.spinner("Fetching stock symbol..."):
-                    stock_symbol = get_stock_symbol(company_name.upper())
+                    stock_symbol = get_stock_symbol(company_name)
             st.write(stock_symbol)
             if stock_symbol:
                 st.write(f"Stock symbol for {company_name}: {stock_symbol}")

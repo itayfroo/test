@@ -334,8 +334,9 @@ def investment():
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-if page == "Stock Analysis":
-    stockanalyzer()
-elif page == "real time stock investment":
-    investment()
 
+def start():
+    if page == "Stock Analysis":
+        stockanalyzer()
+    elif page == "real time stock investment":
+        investment()

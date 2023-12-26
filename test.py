@@ -332,43 +332,10 @@ def investment():
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 
-log_check =False
-st.title("Sign in page")
 
-
-if st.session_state.clicked:
-    if 'sign_up_clicked' not in st.session_state:
-        st.text("Enter your credentials:")
-        st.session_state.username = st.text_input("Username:")
-        st.session_state.password = st.text_input("Password:", type="password")
-        
-        st.button('Sign-up', on_click=click_button)
-        if st.session_state.sign_up_clicked:
-            with open("users.json", "r") as file:
-                users = json.load(file)
-
-            st.success("Account created! You can now log in.")
-    else:
-        st.text("Enter your credentials:")
-        st.session_state.username = st.text_input("Username:")
-        st.session_state.password = st.text_input("Password:", type="password")
-        
-        st.button('Log In', on_click=click_button)
-        if st.session_state.clicked:
-            # Check credentials in the 'users.json' file
-            with open("users.json", "r") as file:
-                users = json.load(file)
-
-            if st.session_state.username in users and users[st.session_state.username] == st.session_state.password:
-                st.success("Logged in!")
-                log_check = True
-            else:
-                st.error("Check for username or password mistakes")
-
-if log_check == True:
-    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-    if page == "Stock Analysis":
-        stockanalyzer()
-    elif page == "real time stock investment":
-        investment()
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+if page == "Stock Analysis":
+    stockanalyzer()
+elif page == "real time stock investment":
+    investment()
 

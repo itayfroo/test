@@ -10,6 +10,7 @@ import tensorflow as tf
 import time  
 import datetime
 import random
+import json
 check = False
 
 data=[]
@@ -19,9 +20,39 @@ api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAK
             ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
 api_key = api_keys[random.randint(0,len(api_keys))]  
 
+def get_stock_symbol_from_json(company_name):
+    try:
+        with open("stocks.json", "r") as json_file:
+            data = json.load(json_file)
+            if company_name in data:
+                return data[company_name]
+    except FileNotFoundError:
+        pass  # File not found, proceed to API call
+    except json.JSONDecodeError:
+        pass  # JSON decoding error, proceed to API call
 
+    return None
+        
+def update_stock_symbol_in_json(company_name, stock_symbol):
+    try:
+        with open("stocks.json", "r") as json_file:
+            data = json.load(json_file)
+    except FileNotFoundError:
+        data = {}
+
+    data[company_name] = stock_symbol
+
+    with open("stocks.json", "w") as json_file:
+        json.dump(data, json_file)
+        
 def get_stock_symbol(company_name):
-    global api_key    
+    global api_key
+
+    stock_symbol = get_stock_symbol_from_json(company_name)
+
+    if stock_symbol:
+        return stock_symbol
+
     base_url = "https://www.alphavantage.co/query"
     function = "SYMBOL_SEARCH"
 
@@ -36,13 +67,17 @@ def get_stock_symbol(company_name):
         data = response.json()
 
         if "bestMatches" in data and data["bestMatches"]:
-            # Convert the symbol to uppercase before returning
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
+
+            # Update JSON file with the new entry
+            update_stock_symbol_in_json(company_name, stock_symbol)
+
             return stock_symbol
     except Exception as e:
         st.error(f"Error: {e}")
 
     return None
+
 
 
 def get_stock_data(symbol, start_date, end_date):
@@ -296,9 +331,20 @@ def investment():
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
+def display_json_info():
+    try:
+        with open("stocks.json", "r") as json_file:
+            data = json.load(json_file)
+            st.write("Current information in stocks.json:")
+            st.write(json.dumps(data, indent=2))
+    except FileNotFoundError:
+        st.warning("stocks.json not found.")
+    except json.JSONDecodeError:
+        st.warning("Error decoding stocks.json.")
         
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
     investment()
+    display_json_info()

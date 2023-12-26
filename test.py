@@ -313,7 +313,7 @@ def investment():
                 stock_symbol = "NVDA"
             else:
                 with st.spinner("Fetching stock symbol..."):
-                    stock_symbol = get_stock_symbol(company_name)
+                    stock_symbol = get_stock_symbol(company_name.upper())
             st.write(stock_symbol)
             if stock_symbol:
                 st.write(f"Stock symbol for {company_name}: {stock_symbol}")

@@ -331,11 +331,59 @@ def investment():
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
+istrue = False
+def load_users():
+    try:
+        with open('users.json', 'r') as file:
+            users = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        users = {}
+    return users
 
+def save_users(users):
+    with open('users.json', 'w') as file:
+        json.dump(users, file)
 
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-if page == "Stock Analysis":
-    stockanalyzer()
-elif page == "real time stock investment":
-    investment()
+def sign_up(username, password):
+    users = load_users()
+    if username in users:
+        st.success(f"{username} already signed up")
+    else:
+        users[username] = password
+        save_users(users)
+        st.success(f"Successfully signed up {username}")
+    istrue = True
+
+def sign_in(username, password):
+    users = load_users()
+    if username in users and users[username] == password:
+        st.success(f"Welcome back, {username}!")
+        istrue = True
+    else:
+        st.error("Invalid username or password")
+
+st.title("User Authentication App")
+
+sign_up_button = st.button("Sign Up")
+sign_in_button = st.button("Sign In")
+
+if sign_up_button:
+    st.subheader("Sign Up")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Submit"):
+        sign_up(username, password)
+
+elif sign_in_button:
+    st.subheader("Sign In")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+    if st.button("Submit"):
+        sign_in(username, password)
+if istrue == True:
+    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+    if page == "Stock Analysis":
+        stockanalyzer()
+    elif page == "real time stock investment":
+        investment()
 

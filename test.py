@@ -335,7 +335,7 @@ def investment():
 log_check =False
 st.title("Sign in page")
 
-
+st.session_state.clicked = False
 if st.session_state.clicked:
     if 'sign_up_clicked' not in st.session_state:
         # Initialize sign_up_clicked attribute

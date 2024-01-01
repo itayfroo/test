@@ -385,7 +385,7 @@ def sign_in(username, password):
             users = json.load(file)
             if users.get(username) == password:
                 st.success("You have successfully logged in!")      
-                
+                return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:
@@ -407,8 +407,8 @@ def homepage():
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
         if st.button("Sign In"):
-            sign_in(username, password)
-
+            if sign_in(username, password):
+                st.success(f"Welcome back {username}")
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])

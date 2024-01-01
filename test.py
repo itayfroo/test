@@ -37,20 +37,15 @@ def get_stock_symbol_from_json(company_name):
         
 def update_stock_symbol_in_json(company_name, stock_symbol):
     try:
-        # Try to read the existing JSON data
         with open("stocks.json", "r") as json_file:
             data = json.load(json_file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        # If the file doesn't exist or has invalid JSON, start with an empty dictionary
+    except FileNotFoundError:
         data = {}
 
-    # Update or add the new entry
     data[company_name] = stock_symbol
 
-    # Write the updated data back to the file
     with open("stocks.json", "w") as json_file:
         json.dump(data, json_file)
-    
         
 def get_stock_symbol(company_name):
     global api_key
@@ -78,7 +73,7 @@ def get_stock_symbol(company_name):
 
             # Update JSON file with the new entry
             update_stock_symbol_in_json(company_name, stock_symbol)
-            
+
             return stock_symbol
     except Exception as e:
         st.error(f"Error: {e}")
@@ -337,9 +332,7 @@ def investment():
 
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
-    with open("stocks.json", "r") as r:
-        data = r.read()
-        print(data)
+
 json_file_path = "users.json"
 main_script_path = "test.py"
 
@@ -362,7 +355,7 @@ def user_exists(username):
     return username in users
 
 
-def sign_up(username, password):
+def sign_up(username, password, additional_info):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
             file_contents = file.read()
@@ -380,7 +373,7 @@ def sign_up(username, password):
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
     else:
-        user_data = {"password": password}
+        user_data = {"password": password, "additional_info": additional_info}
         users[username] = user_data
         with open(json_file_path, "w") as file:
             json.dump(users, file)

@@ -360,8 +360,8 @@ def sign_up(username, password, additional_info):
         with open(json_file_path, "r+") as file:
             try:
                 users = json.load(file)
-            except json.JSONDecodeError:
-                st.error("Error decoding JSON. Please check the file format.")
+            except json.JSONDecodeError as e:
+                st.error(f"Error decoding JSON: {e}")
                 return
 
             if username in users:
@@ -376,6 +376,10 @@ def sign_up(username, password, additional_info):
 
     except Exception as e:
         st.error(f"An error occurred during sign-up: {e}")
+        raise
+
+# Rest of the code...
+
 
 
 

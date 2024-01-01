@@ -356,29 +356,29 @@ def user_exists(username):
 
 
 def sign_up(username, password, additional_info):
-    try:
-        with open(json_file_path, "r+") as file:
-            try:
-                users = json.load(file)
-            except json.JSONDecodeError as e:
-                st.error(f"Error decoding JSON: {e}")
-                return
-
-            if username in users:
-                st.warning("Username is already taken. Please choose another one.")
+    if os.path.exists(json_file_path):
+        with open(json_file_path, "r") as file:
+            file_contents = file.read()
+            if file_contents:
+                try:
+                    users = json.loads(file_contents)
+                except json.JSONDecodeError:
+                    st.error("Error decoding JSON. Please check the file format.")
+                    return
             else:
-                user_data = {"password": password, "additional_info": additional_info}
-                users[username] = user_data
-                file.seek(0)  # Move the cursor to the beginning of the file
-                json.dump(users, file)
-                file.truncate()  # Remove any remaining content after the new JSON content
-                st.success("You have successfully signed up!")
+                users = {}
+    else:
+        users = {}
 
-    except Exception as e:
-        st.error(f"An error occurred during sign-up: {e}")
-        raise
+    if username in users:
+        st.warning("Username is already taken. Please choose another one.")
+    else:
+        user_data = {"password": password, "additional_info": additional_info}
+        users[username] = user_data
+        with open(json_file_path, "w") as file:
+            json.dump(users, file)
+            st.success("You have successfully signed up!")
 
-# Rest of the code...
 
 
 
@@ -408,9 +408,15 @@ def homepage():
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        additional_info = st.text_input("Enter additional info:")  # Add this line
+        additional_info = st.text_input("Enter additional info:")
         if st.button("Sign Up"):
-            sign_up(username, password, additional_info)  # Pass additional_info
+            sign_up(username, password, additional_info)
+
+            # Add a button to write to the JSON file
+            if st.button("Write to JSON File"):
+                st.success("Writing to JSON file...")
+                st.experimental_rerun()
+
     elif page == "Sign In":
         st.header("Sign In")
         username = st.text_input("Enter your username:")

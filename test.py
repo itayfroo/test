@@ -385,7 +385,7 @@ def sign_in(username, password):
             users = json.load(file)
             user_data = users.get(username, {})
             user_passwords = user_data.get('passwords', [])
-            if password in user_passwords:
+            if user_passwords and password in user_passwords:
                 return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")

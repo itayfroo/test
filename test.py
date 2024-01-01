@@ -12,7 +12,6 @@ import datetime
 import random
 import json
 import os
-import subprocess
 check = False
 
 data=[]

@@ -356,7 +356,7 @@ def user_exists(username):
 
 
 def sign_up(username, password, additional_info=""):
-    json_file_path = "users.json"
+    json_file_path = r"C:\Users\user\Documents\test\users.json"
 
     # Load existing user data or create an empty dictionary
     if os.path.exists(json_file_path):

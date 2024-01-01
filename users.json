@@ -1,1 +1,24 @@
-{"user1": "password1", "user2": "password2", "user3": "password3", "itay": "itay"}
+{
+    "user1": {
+      "password": "password1",
+      "additional_info": {
+        "age": 30,
+        "location": "City1"
+      }
+    },
+    "user2": {
+      "password": "password2",
+      "additional_info": {
+        "age": 25,
+        "location": "City2"
+      }
+    },
+    "user3": {
+      "password": "password3",
+      "additional_info": {
+        "age": 28,
+        "location": "City3"
+      }
+    }
+  }
+  

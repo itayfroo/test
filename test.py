@@ -352,10 +352,10 @@ def user_exists(username):
                     json.dump(users, empty_file)
     else:
         users = {}
-
     return username in users
 
-def sign_up(username, password):
+
+def sign_up(username, password, additional_info):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
             file_contents = file.read()
@@ -373,7 +373,8 @@ def sign_up(username, password):
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
     else:
-        users[username] = password
+        user_data = {"password": password, "additional_info": additional_info}
+        users[username] = user_data
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success("You have successfully signed up!")
@@ -383,13 +384,16 @@ def sign_in(username, password):
     if user_exists(username):
         with open(json_file_path, "r") as file:
             users = json.load(file)
-            if users.get(username) == password:
-                #הרשמה הושלמה בהצלחה
+            user_data = users.get(username)
+            if user_data and user_data.get("password") == password:
+                additional_info = user_data.get("additional_info")
+                st.success(f"Welcome, {username}! Additional info: {additional_info}")
                 return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:
         st.warning("User does not exist. Please sign up or check the username.")
+
 
 def homepage():
     st.title("User Authentication System")
@@ -408,7 +412,7 @@ def homepage():
         password = st.text_input("Enter your password:", type="password")
         if st.button("Sign In"):
             if sign_in(username, password):
-                pass
+                
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])

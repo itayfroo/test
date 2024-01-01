@@ -387,10 +387,8 @@ def sign_in(username, password):
         with open(json_file_path, "r") as file:
             users = json.load(file)
             if users.get(username) == password:
-                st.success("You have successfully logged in!")
-
-                # Run the main.py script using subprocess
-                subprocess.run(["python", main_script_path])
+                st.success("You have successfully logged in!")      
+                
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:

@@ -413,7 +413,8 @@ def homepage():
             sign_up(username, password, additional_info)
 
             # Add a button to write to the JSON file
-            if st.button("Write to JSON File"):
+            st.button('Add to json', on_click=click_button)
+            if st.session_state.clicked:
                 st.success("Writing to JSON file...")
                 st.experimental_rerun()
 

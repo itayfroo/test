@@ -355,7 +355,7 @@ def user_exists(username):
     return username in users
 
 
-def sign_up(username, password, additional_info):
+def sign_up(username, password):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
             file_contents = file.read()
@@ -373,7 +373,7 @@ def sign_up(username, password, additional_info):
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
     else:
-        user_data = {"password": password, "additional_info": additional_info}
+        user_data = {"password": password}
         users[username] = user_data
         with open(json_file_path, "w") as file:
             json.dump(users, file)

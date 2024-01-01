@@ -356,13 +356,14 @@ def user_exists(username):
 
 
 def sign_up(username, password, additional_info):
-    if os.path.exists(json_file_path):
+    try:
         with open(json_file_path, "r+") as file:
             try:
                 users = json.load(file)
             except json.JSONDecodeError:
                 st.error("Error decoding JSON. Please check the file format.")
                 return
+
             if username in users:
                 st.warning("Username is already taken. Please choose another one.")
             else:
@@ -372,8 +373,10 @@ def sign_up(username, password, additional_info):
                 json.dump(users, file)
                 file.truncate()  # Remove any remaining content after the new JSON content
                 st.success("You have successfully signed up!")
-    else:
-        st.error(f"JSON file not found at path: {json_file_path}")
+
+    except Exception as e:
+        st.error(f"An error occurred during sign-up: {e}")
+
 
 
 # Function to sign in a user

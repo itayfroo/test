@@ -399,11 +399,9 @@ def sign_in(username, password):
 def homepage():
     st.title("User Authentication System")
 
-    page = st.sidebar.radio("Navigation", ["Home", "Sign Up", "Sign In"])
+    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
 
-    if page == "Home":
-        st.header("Welcome to the User Authentication System!")
-    elif page == "Sign Up":
+    if page == "Sign Up":
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")

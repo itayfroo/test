@@ -405,7 +405,7 @@ def sign_in(username, password):
         st.warning("User does not exist. Please sign up or check the username.")
         return False
 
-# Main Streamlit app
+# Set page configuration
 st.set_page_config(
     page_title="Stocks analyzer",
     page_icon=r"icons8-stock-48.png",
@@ -421,7 +421,7 @@ def click_button():
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "Real-time Stock Investment"])
+page = st.sidebar.radio("Select Page", ["Home", "Sign Up", "Sign In"])
 
 # Main content
 st.title("User Authentication System")
@@ -454,11 +454,6 @@ elif page == "Stock Analysis":
     st.header("Stock Analyzer")
     company_name = st.text_input("Enter company name or item:")
     # Rest of your stock analysis code
-
-# Real-time Stock Investment page
-elif page == "Real-time Stock Investment":
-    st.header("Real-time Stock Investment")
-    # Rest of your real-time stock investment code
 
 # Button to handle click event
 st.button('Analyze', on_click=click_button)

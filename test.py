@@ -412,6 +412,8 @@ def homepage():
         if st.button("Sign In"):
             sign_in(username, password)
 
+
+
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
 if page == "Home":
     homepage()

@@ -389,7 +389,11 @@ def sign_in(username, password):
             users = json.load(file)
             if users.get(username) == password:
                 st.success("You have successfully logged in!")
-                istrue = True
+                page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+                if page == "Stock Analysis":
+                    stockanalyzer()
+                elif page == "real time stock investment":
+                    investment()
                 
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
@@ -418,9 +422,5 @@ elif page == "Sign In":
 
 
 
-if istrue is True:
-    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-    if page == "Stock Analysis":
-        stockanalyzer()
-    elif page == "real time stock investment":
-        investment()
+
+    

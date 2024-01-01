@@ -1,4 +1,15 @@
 import streamlit as st
+import requests
+import yfinance as yf
+import pandas as pd
+import plotly.express as px
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+import tensorflow as tf
+import time  
+import datetime
+import random
 import json
 import os
 import subprocess

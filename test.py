@@ -335,7 +335,6 @@ def investment():
 
 
 json_file_path = "users.json"
-main_script_path = "test.py"
 
 # Function to check if a user exists in the JSON file
 def user_exists(username):
@@ -390,10 +389,8 @@ def sign_in(username, password):
             users = json.load(file)
             if users.get(username) == password:
                 st.success("You have successfully logged in!")
-                istrue =True
-
-                # Run the main.py script using subprocess
-                subprocess.run(["python", main_script_path])
+                istrue = True
+                
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:

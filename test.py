@@ -37,15 +37,20 @@ def get_stock_symbol_from_json(company_name):
         
 def update_stock_symbol_in_json(company_name, stock_symbol):
     try:
+        # Try to read the existing JSON data
         with open("stocks.json", "r") as json_file:
             data = json.load(json_file)
-    except FileNotFoundError:
+    except (FileNotFoundError, json.JSONDecodeError):
+        # If the file doesn't exist or has invalid JSON, start with an empty dictionary
         data = {}
 
+    # Update or add the new entry
     data[company_name] = stock_symbol
 
+    # Write the updated data back to the file
     with open("stocks.json", "w") as json_file:
         json.dump(data, json_file)
+
         
 def get_stock_symbol(company_name):
     global api_key

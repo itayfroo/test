@@ -354,7 +354,7 @@ def user_exists(username):
     return username in users
 
 
-def sign_up(username, password):
+def sign_up(username, password, additional_info="default_value"):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
             file_contents = file.read()
@@ -406,7 +406,7 @@ def homepage():
         password = st.text_input("Enter your password:", type="password")
         additional_info = "default_value"  # Provide a default value
         if st.button("Sign Up"):
-            sign_up(username, password, additional_info)
+            sign_up(username, password)
 
     elif page == "Sign In":
         st.header("Sign In")

@@ -408,15 +408,16 @@ def homepage():
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
+        additional_info = st.text_input("Enter additional info:")  # Add this line
         if st.button("Sign Up"):
-            sign_up(username, password)
+            sign_up(username, password, additional_info)  # Pass additional_info
     elif page == "Sign In":
         st.header("Sign In")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
         if st.button("Sign In"):
             if sign_in(username, password):
-                pass
+                pass  # Add your logic here
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment"])

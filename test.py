@@ -382,18 +382,15 @@ def sign_up(username, password):
             json.dump(users, file)
         st.success("You have successfully signed up!")
 
-# Function to sign in a user
+
+istrue = False
 def sign_in(username, password):
     if user_exists(username):
         with open(json_file_path, "r") as file:
             users = json.load(file)
             if users.get(username) == password:
                 st.success("You have successfully logged in!")
-                page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
-                if page == "Stock Analysis":
-                    stockanalyzer()
-                elif page == "real time stock investment":
-                    investment()
+                istrue =True
 
                 # Run the main.py script using subprocess
                 subprocess.run(["python", main_script_path])
@@ -424,3 +421,9 @@ elif page == "Sign In":
 
 
 
+if istrue is True:
+    page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+    if page == "Stock Analysis":
+        stockanalyzer()
+    elif page == "real time stock investment":
+        investment()

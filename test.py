@@ -14,11 +14,7 @@ import json
 import os
 import subprocess
 check = False
-st.set_page_config(
-    page_title="Stocks analyzer",
-    page_icon=r"icons8-stock-48.png",
-    layout="wide",
-)
+
 data=[]
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83","9XZBYP0RSJFMOT4L"
@@ -338,126 +334,10 @@ def investment():
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 
-@st.cache(allow_output_mutation=True)
-def get_session_state():
-    return {"clicked": False, "username": None}
 
-# Function to update session state
-def update_session_state(clicked, username):
-    session_state = get_session_state()
-    session_state["clicked"] = clicked
-    session_state["username"] = username
-    return session_state
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+if page == "Stock Analysis":
+    stockanalyzer()
+elif page == "real time stock investment":
+    investment()
 
-# Function to check if a user exists in the JSON file
-def user_exists(username):
-    json_file_path = "users.json"
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return False
-            else:
-                users = {}
-    else:
-        users = {}
-
-    return username in users
-
-# Function to sign up a new user
-def sign_up(username, password):
-    json_file_path = "users.json"
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return
-            else:
-                users = {}
-    else:
-        users = {}
-
-    if username in users:
-        st.warning("Username is already taken. Please choose another one.")
-    else:
-        users[username] = password
-        with open(json_file_path, "w") as file:
-            json.dump(users, file)
-        st.success("You have successfully signed up!")
-
-# Function to sign in a user
-def sign_in(username, password):
-    json_file_path = "users.json"
-    if user_exists(username):
-        with open(json_file_path, "r") as file:
-            users = json.load(file)
-            if users.get(username) == password:
-                st.success("You have successfully logged in!")
-                return True
-            else:
-                st.warning("Incorrect password. Please check for spelling and try again.")
-                return False
-    else:
-        st.warning("User does not exist. Please sign up or check the username.")
-        return False
-
-# Set page configuration
-
-
-# Initialize or get session state
-session_state = get_session_state()
-
-# Function to handle button click
-def click_button():
-    session_state = update_session_state(True, session_state["username"])
-
-# Sidebar navigation
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Select Page", ["Home", "Sign Up", "Sign In"])
-
-# Main content
-st.title("User Authentication System")
-
-# Home page
-if page == "Home":
-    st.header("Welcome to the User Authentication System!")
-    if session_state["username"]:
-        st.write(f"Logged in as {session_state['username']}")
-
-# Sign Up page
-elif page == "Sign Up":
-    st.header("Sign Up")
-    username = st.text_input("Enter your username:")
-    password = st.text_input("Enter your password:", type="password")
-    if st.button("Sign Up"):
-        sign_up(username, password)
-
-# Sign In page
-elif page == "Sign In":
-    st.header("Sign In")
-    username = st.text_input("Enter your username:")
-    password = st.text_input("Enter your password:", type="password")
-    if st.button("Sign In"):
-        if sign_in(username, password):
-            session_state = update_session_state(True, username)
-
-# Stock Analysis page
-elif page == "Stock Analysis":
-    st.header("Stock Analyzer")
-    company_name = st.text_input("Enter company name or item:")
-    # Rest of your stock analysis code
-
-# Button to handle click event
-st.button('Analyze', on_click=click_button)
-
-# Display the result of the click
-if session_state["clicked"]:
-    st.write("Button was clicked!")

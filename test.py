@@ -354,7 +354,7 @@ def user_exists(username):
     return username in users
 
 
-def sign_up(username, password, additional_info):
+def sign_up(username, password):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
             file_contents = file.read()
@@ -372,11 +372,12 @@ def sign_up(username, password, additional_info):
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
     else:
-        user_data = {"password": password, "additional_info": additional_info}
+        user_data = {"password": password}
         users[username] = user_data
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success("You have successfully signed up!")
+
 
 # Function to sign in a user
 def sign_in(username, password):
@@ -403,8 +404,10 @@ def homepage():
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
+        additional_info = "default_value"  # Provide a default value
         if st.button("Sign Up"):
-            sign_up(username, password)
+            sign_up(username, password, additional_info)
+
     elif page == "Sign In":
         st.header("Sign In")
         username = st.text_input("Enter your username:")

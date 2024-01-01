@@ -355,28 +355,32 @@ def user_exists(username):
     return username in users
 
 
-def sign_up(username, password):
+def sign_up(username, password, additional_info=""):
+    json_file_path = "users.json"
+
+    # Load existing user data or create an empty dictionary
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return
-            else:
-                users = {}
+            try:
+                users = json.load(file)
+            except json.JSONDecodeError:
+                st.error("Error decoding JSON. Please check the file format.")
+                return
     else:
         users = {}
 
+    # Check if the username is already taken
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
     else:
-        user_data = {"password": password}
+        # Add the new user information to the dictionary
+        user_data = {"password": password, "additional_info": additional_info}
         users[username] = user_data
+
+        # Write the updated user data to the JSON file
         with open(json_file_path, "w") as file:
             json.dump(users, file)
+
         st.success("You have successfully signed up!")
 
 # Function to sign in a user

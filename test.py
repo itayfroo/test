@@ -412,13 +412,13 @@ def homepage():
         password = st.text_input("Enter your password:", type="password")
         if st.button("Sign In"):
             if sign_in(username, password):
-                
+                pass
 
 
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","real time stock investment"])
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment"])
 if page == "Home":
     homepage()
-if page == "Stock Analysis":
+elif page == "Stock Analysis":
     stockanalyzer()
 elif page == "real time stock investment":
     investment()

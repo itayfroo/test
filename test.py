@@ -221,7 +221,7 @@ Linear regression is widely used in various fields for tasks such as predicting 
 st.set_page_config(
     page_title="Stocks analyzer",
     page_icon=r"icons8-stock-48.png",
-    layout="wide",
+    
 )
 
 
@@ -336,7 +336,6 @@ def investment():
 json_file_path = "users.json"
 main_script_path = "test.py"
 
-# Function to check if a user exists in the JSON file
 def user_exists(username):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
@@ -348,7 +347,6 @@ def user_exists(username):
                     st.error("Error decoding JSON. Please check the file format.")
                     return False
             else:
-                # If the file is empty, initialize users as an empty dictionary
                 users = {}
                 with open(json_file_path, "w") as empty_file:
                     json.dump(users, empty_file)
@@ -357,7 +355,6 @@ def user_exists(username):
 
     return username in users
 
-# Function to sign up a new user
 def sign_up(username, password):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:

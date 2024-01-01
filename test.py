@@ -50,9 +50,7 @@ def update_stock_symbol_in_json(company_name, stock_symbol):
     # Write the updated data back to the file
     with open("stocks.json", "w") as json_file:
         json.dump(data, json_file)
-    with open("stocks.json", "r") as r:
-        data = r.read()
-    return data
+    
         
 def get_stock_symbol(company_name):
     global api_key
@@ -79,7 +77,7 @@ def get_stock_symbol(company_name):
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
 
             # Update JSON file with the new entry
-            print(update_stock_symbol_in_json(company_name, stock_symbol))
+            update_stock_symbol_in_json(company_name, stock_symbol)
             
             return stock_symbol
     except Exception as e:
@@ -339,7 +337,9 @@ def investment():
 
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.")
-
+    with open("stocks.json", "r") as r:
+        data = r.read()
+        print(data)
 json_file_path = "users.json"
 main_script_path = "test.py"
 

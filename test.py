@@ -14,7 +14,11 @@ import json
 import os
 import subprocess
 check = False
-
+st.set_page_config(
+    page_title="Stocks analyzer",
+    page_icon=r"icons8-stock-48.png",
+    layout="wide",
+)
 data=[]
 
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83","9XZBYP0RSJFMOT4L"
@@ -406,11 +410,7 @@ def sign_in(username, password):
         return False
 
 # Set page configuration
-st.set_page_config(
-    page_title="Stocks analyzer",
-    page_icon=r"icons8-stock-48.png",
-    layout="wide",
-)
+
 
 # Initialize or get session state
 session_state = get_session_state()

@@ -373,7 +373,7 @@ def sign_up(username, password):
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
     else:
-        users[username] = {'passwords': [password]}
+        users[username] = password
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success("You have successfully signed up!")
@@ -383,15 +383,13 @@ def sign_in(username, password):
     if user_exists(username):
         with open(json_file_path, "r") as file:
             users = json.load(file)
-            user_data = users.get(username, {})
-            user_passwords = user_data.get('passwords', [])
-            if user_passwords and password in user_passwords:
+            if users.get(username) == password:
+                #הרשמה הושלמה בהצלחה
                 return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:
         st.warning("User does not exist. Please sign up or check the username.")
-
 
 def homepage():
     st.title("User Authentication System")

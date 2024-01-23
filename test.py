@@ -295,18 +295,15 @@ def stockanalyzer():
                         
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
-                    investment(stock_symbol)
+                    investment(stock_symbol,company_name)
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.") 
                
     
-def investment(stock_symbol):
+def investment(stock_symbol,company_name):
     st.title("Investment")
     start_date = "2022-1-1"
-    end_date = datetime.datetime.now().date()
-    company_name = st.text_input("Enter company name or item:").upper()
-    st.button('launch', on_click=click_button)
-    
+    end_date = datetime.datetime.now().date() 
     st.write(f"Stock symbol for {company_name}: {stock_symbol}")
     st.write("Fetching stock data...")
     stock_data = get_stock_data(stock_symbol, start_date, end_date)

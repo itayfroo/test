@@ -302,7 +302,6 @@ def stockanalyzer():
     
 def investment(stock_symbol,company_name,stock_data):
     st.title("Investment")
-    st.write(f"Stock symbol for {company_name}: {stock_symbol}")
     if stock_data is not None:
         if 'level_1' not in st.session_state:
             st.session_state.level_1 = True  

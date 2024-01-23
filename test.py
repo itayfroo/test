@@ -308,7 +308,9 @@ def investment(stock_symbol,company_name):
 
     stock_data = get_stock_data(stock_symbol, start_date, end_date)
     if stock_data is not None:
-        value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
+        if 'level_1' not in st.session_state:
+            st.session_state.level_1 = 1  
+        value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50,key = "level1")
         start_price = stock_data['Close'].iloc[0]
         end_price = stock_data['Close'].iloc[-1]
         percent_change = ((end_price - start_price) / start_price) * 100

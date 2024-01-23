@@ -292,45 +292,34 @@ def stockanalyzer():
                             linear_Regression(stock_data)
                         
 
-                        
+                        investment(stock_symbol)
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
             else:
-                st.warning(f"Stock doesn't exist.\ntry again or check your input.")    
+                st.warning(f"Stock doesn't exist.\ntry again or check your input.") 
+               
     
-def investment():
+def investment(stock_symbol):
     st.title("Investment")
     start_date = "2022-1-1"
     end_date = datetime.datetime.now().date()
     company_name = st.text_input("Enter company name or item:").upper()
     st.button('launch', on_click=click_button)
-    if st.session_state.clicked:
-        if company_name =="":
-            st.warning("You have to enter a stock or a company name.")
-        else:
-            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                stock_symbol = "AAPL"
-            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                stock_symbol = "NVDA"
-            else:
-                with st.spinner("Fetching stock symbol..."):
-                    stock_symbol = get_stock_symbol(company_name)
-            st.write(stock_symbol)
-            if stock_symbol:
-                st.write(f"Stock symbol for {company_name}: {stock_symbol}")
-                st.write("Fetching stock data...")
-                stock_data = get_stock_data(stock_symbol, start_date, end_date)
-                if stock_data is not None:
-                    value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
-                    start_price = stock_data['Close'].iloc[0]
-                    end_price = stock_data['Close'].iloc[-1]
-                    percent_change = ((end_price - start_price) / start_price) * 100
-                    potential_returns = value * (1 + percent_change / 100)
-                    st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
-                    st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+    
+    st.write(f"Stock symbol for {company_name}: {stock_symbol}")
+    st.write("Fetching stock data...")
+    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+    if stock_data is not None:
+        value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)
+        start_price = stock_data['Close'].iloc[0]
+        end_price = stock_data['Close'].iloc[-1]
+        percent_change = ((end_price - start_price) / start_price) * 100
+        potential_returns = value * (1 + percent_change / 100)
+        st.write(f"If you invest ${value:.2f} in {stock_symbol} from the start of 2022 until today:")
+        st.success(f"You would get approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
 
-            else:
-                st.warning(f"Stock doesn't exist.\ntry again or check your input.")
+    else:
+        st.warning(f"Stock doesn't exist.\ntry again or check your input.")
 
 json_file_path = "users.json"
 main_script_path = "test.py"
@@ -426,6 +415,5 @@ if page == "Home":
     homepage()
 elif page == "Stock Analysis":
     stockanalyzer()
-elif page == "real time stock investment":
-    investment()
+
 

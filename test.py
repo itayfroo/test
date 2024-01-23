@@ -247,7 +247,22 @@ def stockanalyzer():
     st.title("Stock Analyzer")
 
 
-    company_name = st.text_input("Enter company name:")
+    html_code = """
+    <script>
+        const textArea = document.getElementById('myTextArea');
+        textArea.addEventListener('input', function () {
+            const value = textArea.value;
+            const message = `You are typing: ${value}`;
+            const outputDiv = document.getElementById('outputDiv');
+            outputDiv.innerHTML = message;
+        });
+    </script>
+"""
+
+    st.text_area("Enter text:", key="myTextArea")
+    st.markdown(html_code, unsafe_allow_html=True)
+    st.markdown("<div id='outputDiv'></div>", unsafe_allow_html=True)
+
 
 
     min_date = datetime.date(2022, 1, 1)

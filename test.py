@@ -247,8 +247,14 @@ def stockanalyzer():
     st.title("Stock Analyzer")
 
 
-    company_name = st.text_input("Enter company name:", value="", key="company_input", suggestions=list(company_dict.keys()))
-    company_name =company_name.upper()
+    selected_companies = st.multiselect("Select company name:", list(company_dict.keys()), default=[])
+
+    if not selected_companies:
+        st.warning("Please select a company.")
+        return
+
+    company_name = selected_companies[0].upper()
+
 
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)

@@ -247,14 +247,7 @@ def stockanalyzer():
     st.title("Stock Analyzer")
 
 
-    company_name = st.text_input("Select or enter company name:", list(company_dict.keys())[0]).strip().upper()
-
-    # Show suggestions in st.selectbox
-    selected_company_name = st.selectbox("Suggestions:", list(company_dict.keys()), index=0)
-
-    # If the user selects a company name from the suggestions, update the st.text_input
-    if selected_company_name:
-        company_name = selected_company_name.upper()
+    company_name = st.selectbox("Select or enter company name:", list(company_dict.keys()), index=0).upper()
 
 
 

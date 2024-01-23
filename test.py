@@ -247,12 +247,7 @@ def stockanalyzer():
     st.title("Stock Analyzer")
 
 
-    input_text = st.text_area("Enter text:")
-
-
-    st.write("You are typing:", input_text)
-
-
+    company_name = st.text_input("Enter company name:")
 
 
     min_date = datetime.date(2022, 1, 1)

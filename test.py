@@ -371,7 +371,7 @@ def sign_up(username, password, additional_info="default_value"):
 
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
-    elif username!="" and password!="":
+    elif username=="" and password=="":
         st.warning("Check for spelling.")
     else:
         user_data = {"password": password}

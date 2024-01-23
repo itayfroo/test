@@ -370,9 +370,11 @@ def sign_up(username, password, additional_info="default_value"):
         users = {}
 
     if username in users:
-        st.warning("Username is already taken. Please choose another one.")
-    elif username=="" and password=="":
-        st.warning("Check for spelling.")
+        st.warning("Username is already taken. Please choose another one")
+    elif username=="":
+        st.warning("You have to enter a username")
+    elif password=="":
+        st.warning("You have to enter a password")
     else:
         user_data = {"password": password}
         users[username] = user_data

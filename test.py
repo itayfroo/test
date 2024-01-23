@@ -371,6 +371,8 @@ def sign_up(username, password, additional_info="default_value"):
 
     if username in users:
         st.warning("Username is already taken. Please choose another one.")
+    elif username!="" and password!="":
+        st.warning("Check for spelling.")
     else:
         user_data = {"password": password}
         users[username] = user_data
@@ -384,7 +386,7 @@ def sign_in(username, password):
     if user_exists(username):
         with open(json_file_path, "r") as file:
             users = json.load(file)
-            user_data = users.get(username)
+            user_data = users.get(username)    
             if user_data and user_data.get("password") == password:
                 additional_info = user_data.get("additional_info")
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")

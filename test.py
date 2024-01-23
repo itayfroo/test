@@ -247,7 +247,20 @@ def stockanalyzer():
     st.title("Stock Analyzer")
 
 
-    company_name = st.text_input("Enter company name:")
+    entered_text = st.text_area("Enter or select company names (comma-separated):", "")
+    
+    # Split the entered text into a list of company names
+    selected_companies = [name.strip().upper() for name in entered_text.split(',') if name.strip()]
+
+    # Use st.multiselect for auto-completion suggestions
+    selected_company_name = st.multiselect("Auto-completion suggestions:", list(company_dict.keys()), default=[])
+
+    # Combine the manually entered and selected suggestions
+    all_selected_companies = selected_companies + selected_company_name
+
+    # Use the first selected or entered company name
+    company_name = all_selected_companies[0] if all_selected_companies else ""
+
 
 
     min_date = datetime.date(2022, 1, 1)

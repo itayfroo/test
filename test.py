@@ -383,7 +383,7 @@ def sign_up(username, password, additional_info="default_value"):
         st.success("You have successfully signed up!")
 
 
-# Function to sign in a user
+
 def sign_in(username, password):
     if user_exists(username):
         with open(json_file_path, "r") as file:

@@ -292,9 +292,10 @@ def stockanalyzer():
                             linear_Regression(stock_data)
                         
 
-                        investment(stock_symbol)
+                        
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
+                    investment(stock_symbol)
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.") 
                

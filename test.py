@@ -305,7 +305,6 @@ def investment(stock_symbol,company_name):
     start_date = "2022-1-1"
     end_date = datetime.datetime.now().date() 
     st.write(f"Stock symbol for {company_name}: {stock_symbol}")
-    st.write("Fetching stock data...")
     stock_data = get_stock_data(stock_symbol, start_date, end_date)
     if stock_data is not None:
         value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50)

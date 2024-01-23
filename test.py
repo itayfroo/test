@@ -230,18 +230,33 @@ if 'clicked' not in st.session_state:
 
 def click_button():
     st.session_state.clicked = True
+
+
+
+
+def load_company_dict():
+    try:
+        with open("stocks.json", "r") as json_file:
+            return json.load(json_file)
+    except FileNotFoundError:
+        return {}
+
+company_dict = load_company_dict()
+
 def stockanalyzer():
     st.title("Stock Analyzer")
-    company_name = st.text_input("Enter company name or item:").upper()
+
+
+    company_name = st.selectbox("Select or enter company name:", list(company_dict.keys()), index=0).upper()
 
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
-    start_date = st.date_input("Select start date:", 
-                            min_value=min_date, 
-                            max_value=max_date, 
-                            value=min_date)
+    start_date = st.date_input("Select start date:",
+                               min_value=min_date,
+                               max_value=max_date,
+                               value=min_date)
 
-    end_date = datetime.datetime.now().date()  
+    end_date = datetime.datetime.now().date() 
 
     st.button('Analyze', on_click=click_button)
     if st.session_state.clicked:

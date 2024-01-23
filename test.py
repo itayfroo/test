@@ -257,7 +257,7 @@ def stockanalyzer():
             outputDiv.innerHTML = message;
         });
     </script>
-"""
+                """
 
     st.text_area("Enter text:", key="myTextArea")
     st.markdown(html_code, unsafe_allow_html=True)

@@ -295,21 +295,17 @@ def stockanalyzer():
                         
                     except:
                         st.warning("Not enough info for an AI approximation, please try an earlier date.")
-                    investment(stock_symbol,company_name)
+                    investment(stock_symbol,company_name,stock_data)
             else:
                 st.warning(f"Stock doesn't exist.\ntry again or check your input.") 
                
     
-def investment(stock_symbol,company_name):
+def investment(stock_symbol,company_name,stock_data):
     st.title("Investment")
-    start_date = "2022-1-1"
-    end_date = datetime.datetime.now().date() 
     st.write(f"Stock symbol for {company_name}: {stock_symbol}")
-
-    stock_data = get_stock_data(stock_symbol, start_date, end_date)
     if stock_data is not None:
         if 'level_1' not in st.session_state:
-            st.session_state.level_1 = 1  
+            st.session_state.level_1 = True  
         value = st.slider("If you were to invest:", min_value=100, max_value=5000, value=100, step=50,key = "level1")
         start_price = stock_data['Close'].iloc[0]
         end_price = stock_data['Close'].iloc[-1]

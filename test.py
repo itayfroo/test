@@ -247,13 +247,11 @@ def stockanalyzer():
     st.title("Stock Analyzer")
 
 
-    def on_input_change():
-        st.write("Input Text:", input_text)
+    input_text = st.text_area("Enter text:")
 
-    input_text = st.text_input("Enter text:", key="input_text", on_change=on_input_change)
 
-    # Display the input text dynamically
     st.write("You are typing:", input_text)
+
 
 
 

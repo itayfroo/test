@@ -327,7 +327,7 @@ def investment(stock_symbol,stock_data):
         percent_change = ((end_price - start_price) / start_price) * 100
         potential_returns = value * (1 + percent_change / 100)
         st.write(f"If you invest {value:.2f}$ in {stock_symbol} from the start of 2022 until today:")
-        st.success(f"You would have approximately ${potential_returns:.2f} based on the percentage change of {percent_change:.2f}%.")
+        st.success(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%.")
 
     else:
         st.warning(f"Stock doesn't exist.\ntry again or check your input.")

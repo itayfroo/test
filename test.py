@@ -232,7 +232,7 @@ def click_button():
     st.session_state.clicked = True
 def stockanalyzer():
     st.title("Stock Analyzer")
-    company_name = st.text_input("Enter company name or item:")
+    company_name = st.text_input("Enter company name or item:").upper()
 
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)

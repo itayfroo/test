@@ -410,7 +410,7 @@ def homepage():
                 pass
 
 
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis", "real time stock investment"])
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
 if page == "Home":
     homepage()
 elif page == "Stock Analysis":

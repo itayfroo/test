@@ -409,16 +409,14 @@ def homepage():
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
         additional_info = "default_value"  # Provide a default value
-        st.button('Sign up', on_click=click_button)
-        if st.session_state.clicked:
+        if st.button("Sign Up"):
             sign_up(username, password)
 
     elif page == "Sign In":
         st.header("Sign In")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        st.button('Sign in', on_click=click_button)
-        if st.session_state.clicked:
+        if st.button("Sign In"):
             if sign_in(username, password):
                 pass
 

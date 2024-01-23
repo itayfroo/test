@@ -426,7 +426,6 @@ if page == "Home":
     homepage()
 elif page == "Stock Analysis":
     stockanalyzer()
+elif page == "real time stock investment":
     investment()
-
-    
 

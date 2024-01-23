@@ -1,7 +1,1 @@
-{
-    "NVIDIA": "NVDA",
-    "APPLE": "AAPL",
-    "TESLA": "TSLA",
-    "S&P" : "SPY"
-  }
-  
+{"NVIDIA": "NVDA", "APPLE": "AAPL", "TESLA": "TSLA", "S&P": "SPY", "israel": "ISRL"}

@@ -17,6 +17,6 @@ jobs:
         run: |
           git config user.name "itayfroo"
           git config user.email "itayfroo@gmail.com"
-          git add C:\Users\user\Documents\test\users.json
+          git add path/to/your/json/file.json
           git commit -m "Auto-save changes from Streamlit app"
           git push

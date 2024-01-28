@@ -73,7 +73,7 @@ def sign_in(username, password):
                
                 d = {
                     'Username': username,
-                    'Password': user_data,
+                    'Password': user_data['password'],
                     'Age': additional_info['Age'],
                     'City':additional_info['City'],
                     'Amount invested':additional_info['Amount_invested']

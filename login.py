@@ -100,7 +100,7 @@ def sign_in(username, password):
                     try:
                         if int(amount_invested) < 0 or int(amount_invested) >99:
                             st.warning("Invalid input")
-                        else: additional_info['Age']=int(amount_invested)
+                        else: additional_info['Amount_invested']=int(amount_invested)
                     except:st.warning("Invalid input")
                 d = {
                     'Username': username,

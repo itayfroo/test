@@ -1,68 +1,69 @@
-import json
-import os
+import sqlite3
 import streamlit as st
-json_file_path = "users.json"
-main_script_path = "test.py"
+
+db_path = "users.db"
+
+def initialize_database():
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Create a users table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            username TEXT PRIMARY KEY,
+            password TEXT,
+            additional_info TEXT
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
 
 def user_exists(username):
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return False
-            else:
-                users = {}
-                with open(json_file_path, "w") as empty_file:
-                    json.dump(users, empty_file)
-    else:
-        users = {}
-    return username in users
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
 
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+    user = cursor.fetchone()
+
+    conn.close()
+
+    return user is not None
 
 def sign_up(username, password, additional_info="default_value"):
-    if os.path.exists(json_file_path):
-        with open(json_file_path, "r") as file:
-            file_contents = file.read()
-            if file_contents:
-                try:
-                    users = json.loads(file_contents)
-                except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
-                    return
-            else:
-                users = {}
-    else:
-        users = {}
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
 
-    if username in users:
-        st.warning("Username is already taken. Please choose another one")
-    elif username=="":
-        st.warning("You have to enter a username")
-    elif password=="":
-        st.warning("You have to enter a password")
+    if user_exists(username):
+        st.warning("Username is already taken. Please choose another one.")
+    elif username == "":
+        st.warning("You have to enter a username.")
+    elif password == "":
+        st.warning("You have to enter a password.")
     else:
-        user_data = {"password": password}
-        users[username] = user_data
-        with open(json_file_path, "w") as file:
-            json.dump(users, file)
+        cursor.execute('''
+            INSERT INTO users (username, password, additional_info)
+            VALUES (?, ?, ?)
+        ''', (username, password, additional_info))
+
+        conn.commit()
+        conn.close()
         st.success("You have successfully signed up!")
 
-
-
 def sign_in(username, password):
-    if user_exists(username):
-        with open(json_file_path, "r") as file:
-            users = json.load(file)
-            user_data = users.get(username)    
-            if user_data and user_data.get("password") == password:
-                additional_info = user_data.get("additional_info")
-                st.success(f"Welcome, {username}! Additional info: {additional_info}")
-                return True
-            else:
-                st.warning("Incorrect password. Please check for spelling and try again.")
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
+    user = cursor.fetchone()
+
+    conn.close()
+
+    if user:
+        st.success(f"Welcome, {username}! Additional info: {user[2]}")
+        return True
     else:
-        st.warning("User does not exist. Please sign up or check the username.")
+        st.warning("Incorrect password. Please check for spelling and try again.")
+        return False
+
+initialize_database()

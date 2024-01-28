@@ -337,6 +337,7 @@ def investment(stock_symbol,stock_data):
 
 
 def homepage():
+    from israelcities import israeli_cities
     st.title("User Authentication System")
 
     page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
@@ -345,7 +346,21 @@ def homepage():
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        additional_info = "default_value"  # Provide a default value
+        age= st.text_input("Enter your age")
+        st.button('Age', on_click=click_button)
+        if st.session_state.clicked:
+            try:
+                if age < 0 or age >99:
+                    st.warning("Invalid input")
+            except:pass
+        city=  st.selectbox("Enter your city", israeli_cities)    
+        amount_invested= st.text_input("Enter the amount you want to invest")
+        st.button('Amount invested', on_click=click_button)
+        if st.session_state.clicked:
+            try:
+                if amount_invested < 0 :
+                    st.warning("Invalid input")
+            except:pass
         if st.button("Sign Up"):
             sign_up(username, password)
 

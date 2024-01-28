@@ -1,6 +1,8 @@
 import json
 import os
 import streamlit as st
+import pandas as pd
+
 json_file_path = "users.json"
 main_script_path = "test.py"
 
@@ -61,6 +63,16 @@ def sign_in(username, password):
             if user_data and user_data.get("password") == password:
                 additional_info = user_data.get("additional_info")
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")
+                d = {
+                    'Username: ': username,
+                    'Age': additional_info[0],
+                    'City':additional_info[1],
+                    'Amount invested':additional_info[2]
+                    
+                    
+                }
+                df = pd.DataFrame(data=d)
+                st.table(df)
                 return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")

@@ -53,22 +53,16 @@ def sign_up(username, password, additional_info="default_value"):
         st.warning("You have to enter a password")
     else:
         user_data = {"password": password}
-        
+        from israelcities import israeli_cities
         age= st.text_input("Enter your age")
-        st.button('Age', on_click=click_button)
+        st.button('Okay', on_click=click_button)
         if st.session_state.clicked:
             try:
-                if age < 0 or age >99:
+                if int(age) < 0 or int(age) >99:
                     st.warning("Invalid input")
             except:pass
         city=  st.selectbox("Enter your city", israeli_cities)    
         amount_invested= st.text_input("Enter the amount you want to invest")
-        st.button('Amount invested', on_click=click_button)
-        if st.session_state.clicked:
-            try:
-                if amount_invested < 0 :
-                    st.warning("Invalid input")
-            except:pass
         
         users[username] = user_data
         users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}

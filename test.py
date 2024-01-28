@@ -346,15 +346,7 @@ def homepage():
         st.header("Sign Up")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        age= st.text_input("Enter your age")
-        st.button('Okay', on_click=click_button)
-        if st.session_state.clicked:
-            try:
-                if int(age) < 0 or int(age) >99:
-                    st.warning("Invalid input")
-            except:pass
-        city=  st.selectbox("Enter your city", israeli_cities)    
-        amount_invested= st.text_input("Enter the amount you want to invest")
+        
         if st.button("Sign Up"):
             sign_up(username, password)
 

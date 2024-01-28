@@ -48,6 +48,12 @@ def sign_up(username, password, additional_info="default_value"):
         st.warning("You have to enter a password")
     else:
         user_data = {"password": password}
+        
+        age= st.text_input("Enter your age")
+        city= st.text_input("Enter your city name")
+        amount_invested= st.text_input("Enter the amount you want to invest")
+        
+        users[additional_info] = {'Age':age,'City':city,'Amount_invested':amount_invested}
         users[username] = user_data
         with open(json_file_path, "w") as file:
             json.dump(users, file)

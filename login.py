@@ -55,7 +55,7 @@ def sign_up(username, password, additional_info="default_value"):
         
         
         users[username] = user_data
-        users[additional_info] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+        users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success("You have successfully signed up!")
@@ -68,7 +68,7 @@ def sign_in(username, password):
             users = json.load(file)
             user_data = users.get(username)    
             if user_data and user_data.get("password") == password:
-                additional_info = user_data.get("additional_info")
+                additional_info = user_data.get(f"{username}_info")
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")
                 d = {
                     'Username: ': username,

@@ -355,7 +355,7 @@ def homepage():
             except:pass
         city=  st.selectbox("Enter your city", israeli_cities)    
         amount_invested= st.text_input("Enter the amount you want to invest")
-        st.button('Confirm', on_click=click_button)
+        st.button('Accept', on_click=click_button)
         if st.session_state.clicked:
             try:
                 if int(amount_invested) < 0 :

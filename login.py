@@ -1,91 +1,68 @@
-import sqlite3
+import json
+import os
 import streamlit as st
-import hashlib
+json_file_path = "users.json"
+main_script_path = "test.py"
 
-# Function to create a connection and cursor to the SQLite database
-def create_connection():
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    return conn, cursor
+def user_exists(username):
+    if os.path.exists(json_file_path):
+        with open(json_file_path, "r") as file:
+            file_contents = file.read()
+            if file_contents:
+                try:
+                    users = json.loads(file_contents)
+                except json.JSONDecodeError:
+                    st.error("Error decoding JSON. Please check the file format.")
+                    return False
+            else:
+                users = {}
+                with open(json_file_path, "w") as empty_file:
+                    json.dump(users, empty_file)
+    else:
+        users = {}
+    return username in users
 
-# Function to create the users table if it doesn't exist
-def create_users_table(cursor):
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            username TEXT PRIMARY KEY,
-            password TEXT,
-            additional_info TEXT
-        )
-    ''')
 
-# Function to sign up a new user
 def sign_up(username, password, additional_info="default_value"):
-    conn, cursor = create_connection()
+    if os.path.exists(json_file_path):
+        with open(json_file_path, "r") as file:
+            file_contents = file.read()
+            if file_contents:
+                try:
+                    users = json.loads(file_contents)
+                except json.JSONDecodeError:
+                    st.error("Error decoding JSON. Please check the file format.")
+                    return
+            else:
+                users = {}
+    else:
+        users = {}
 
-    try:
-        # Check if the user already exists
-        cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
-        existing_user = cursor.fetchone()
+    if username in users:
+        st.warning("Username is already taken. Please choose another one")
+    elif username=="":
+        st.warning("You have to enter a username")
+    elif password=="":
+        st.warning("You have to enter a password")
+    else:
+        user_data = {"password": password}
+        users[username] = user_data
+        with open(json_file_path, "w") as file:
+            json.dump(users, file)
+        st.success("You have successfully signed up!")
 
-        if existing_user:
-            st.warning("Username is already taken. Please choose another one.")
-        elif username == "" or password == "":
-            st.warning("Please enter a username and password.")
-        else:
-            # Hash the password before storing it
-            hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
-            # Insert the new user into the database
-            cursor.execute('''
-                INSERT INTO users (username, password, additional_info)
-                VALUES (?, ?, ?)
-            ''', (username, hashed_password, additional_info))
-            conn.commit()
-            st.success("You have successfully signed up!")
-    except sqlite3.Error as e:
-        st.error(f"Error: {e}")
-    finally:
-        conn.close()
 
-# Function to sign in an existing user
 def sign_in(username, password):
-    conn, cursor = create_connection()
-
-    try:
-        # Hash the entered password for comparison
-        hashed_password = hashlib.sha256(password.encode()).hexdigest()
-
-        # Check if the username and hashed password match
-        cursor.execute('''
-            SELECT * FROM users
-            WHERE username = ? AND password = ?
-        ''', (username, hashed_password))
-
-        user_data = cursor.fetchone()
-
-        if user_data:
-            st.success(f"Welcome, {username}! Additional info: {user_data[2]}")
-        else:
-            st.warning("Incorrect username or password. Please try again.")
-    except sqlite3.Error as e:
-        st.error(f"Error: {e}")
-    finally:
-        conn.close()
-
-# Streamlit UI
-st.title("User Authentication with SQLite")
-
-# Sign-up section
-st.header("Sign Up")
-new_username = st.text_input("Enter a new username:")
-new_password = st.text_input("Enter a new password:", type="password")
-additional_info = st.text_input("Enter additional info (optional):")
-if st.button("Sign Up"):
-    sign_up(new_username, new_password, additional_info)
-
-# Sign-in section
-st.header("Sign In")
-existing_username = st.text_input("Enter your username:")
-existing_password = st.text_input("Enter your password:", type="password")
-if st.button("Sign In"):
-    sign_in(existing_username, existing_password)
+    if user_exists(username):
+        with open(json_file_path, "r") as file:
+            users = json.load(file)
+            user_data = users.get(username)    
+            if user_data and user_data.get("password") == password:
+                additional_info = user_data.get("additional_info")
+                st.success(f"Welcome, {username}! Additional info: {additional_info}")
+                return True
+            else:
+                st.warning("Incorrect password. Please check for spelling and try again.")
+    else:
+        st.warning("User does not exist. Please sign up or check the username.")

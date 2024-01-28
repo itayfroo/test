@@ -90,9 +90,12 @@ def sign_in(username, password):
                     try:
                         if int(age) < 0 or int(age) >99:
                             st.warning("Invalid input")
-                        else: additional_info['Age']=int(age)
+                        else: 
+                            additional_info['Age']=int(age)
+                            st.balloons()
                     except:st.warning("Invalid input")
                 city=  st.selectbox("Enter your city", israeli_cities)
+                
                 additional_info['City'] = city
                 amount_invested= st.text_input("Enter the amount you want to invest")
                 st.button('Confirm', on_click=click_button)
@@ -100,7 +103,9 @@ def sign_in(username, password):
                     try:
                         if int(amount_invested) < 0 or int(amount_invested) >99:
                             st.warning("Invalid input")
-                        else: additional_info['Amount_invested']=int(amount_invested)
+                        else: 
+                            additional_info['Amount_invested']=int(amount_invested)
+                            st.snow()
                     except:st.warning("Invalid input")
                 d = {
                     'Username': username,
@@ -111,7 +116,7 @@ def sign_in(username, password):
                 }
                 df = pd.DataFrame([d])
                 st.table(df)
-                st.snow()
+                
                 return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")

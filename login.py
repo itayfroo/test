@@ -73,9 +73,9 @@ def sign_in(username, password):
                 d = {
                     'Username': username,
                     'Password': user_data,
-                    'Age': f"{username}_info"[0:-1],
-                    'City':f"{username}_info"[1:-1],
-                    'Amount invested':f"{username}_info"[2:-1]
+                    'Age': additional_info[0],
+                    'City':additional_info[1],
+                    'Amount invested':additional_info[2]
                 }
                 df = pd.DataFrame(data=d)
                 st.table(df)

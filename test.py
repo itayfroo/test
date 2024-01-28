@@ -358,7 +358,7 @@ def homepage():
         st.button('Amount invested', on_click=click_button)
         if st.session_state.clicked:
             try:
-                if amount_invested < 0 :
+                if int(amount_invested) < 0 :
                     st.warning("Invalid input")
             except:pass
         if st.button("Sign Up"):

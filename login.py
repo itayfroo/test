@@ -47,7 +47,7 @@ def sign_up(username, password, additional_info="default_value"):
     elif password=="":
         st.warning("You have to enter a password")
     else:
-        user_data = {"username": username,"password": password}
+        user_data = {"password": password}
         
         age= st.text_input("Enter your age")
         city= st.text_input("Enter your city name")

@@ -71,8 +71,8 @@ def sign_in(username, password):
                 additional_info = users.get(f"{username}_info")
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")
                 d = {
-                    'Username': username[0],
-                    'Password': username[1],
+                    'Username': username[0][0],
+                    'Password': username[1][0],
                     'Age': f"{username}_info"[0],
                     'City':f"{username}_info"[1],
                     'Amount invested':f"{username}_info"[2]

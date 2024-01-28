@@ -72,9 +72,9 @@ def sign_in(username, password):
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")
                 d = {
                     'Username: ': user_data,
-                    'Age': f"{username}_info"[0],
-                    'City':f"{username}_info"[1],
-                    'Amount invested':f"{username}_info"[2]
+                    'Age': additional_info[0],
+                    'City':additional_info[1],
+                    'Amount invested':additional_info[2]
                 }
                 df = pd.DataFrame(data=d)
                 st.table(df)

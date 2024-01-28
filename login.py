@@ -68,8 +68,9 @@ def sign_in(username, password):
             users = json.load(file)
             user_data = users.get(username)    
             if user_data and user_data.get("password") == password:
-                additional_info = dict(users.get(f"{username}_info"))
+                additional_info = users.get(f"{username}_info")
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")
+                st.write(additional_info)
                 d = {
                     'Username': username,
                     'Password': user_data,

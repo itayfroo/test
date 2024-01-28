@@ -70,7 +70,7 @@ def sign_in(username, password):
             if user_data and user_data.get("password") == password:
                 additional_info = users.get(f"{username}_info")
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")
-                st.write(additional_info)
+                st.write(type(additional_info))
                 d = {
                     'Username': username,
                     'Password': user_data,

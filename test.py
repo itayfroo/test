@@ -350,7 +350,7 @@ def homepage():
         st.button('Age', on_click=click_button)
         if st.session_state.clicked:
             try:
-                if age < 0 or age >99:
+                if int(age) < 0 or int(age) >99:
                     st.warning("Invalid input")
             except:pass
         city=  st.selectbox("Enter your city", israeli_cities)    

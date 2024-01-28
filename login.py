@@ -82,8 +82,8 @@ def sign_in(username, password):
                 # Generate a 440 Hz sine wave
                 note_la = np.sin(frequency_la * t * 2 * np.pi)
 
-                st.audio(note_la, sample_rate=sample_rate)
-                st.audio("")
+                st.audio(note_la)
+               
                 d = {
                     'Username': username,
                     'Password': user_data,

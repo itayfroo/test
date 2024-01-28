@@ -1,0 +1,22 @@
+name: Save Changes
+
+on:
+  push:
+    paths:
+      - 'C:\Users\user\Documents\test\users.json'
+
+jobs:
+  save_changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Commit Changes
+        run: |
+          git config user.name "itayfroo"
+          git config user.email "itayfroo@gmail.com"
+          git add C:\Users\user\Documents\test\users.json
+          git commit -m "Auto-save changes from Streamlit app"
+          git push

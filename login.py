@@ -53,16 +53,9 @@ def sign_up(username, password, additional_info="default_value"):
         st.warning("You have to enter a password")
     else:
         user_data = {"password": password}
-        from israelcities import israeli_cities
-        age= st.text_input("Enter your age")
-        st.button('Okay', on_click=click_button)
-        if st.session_state.clicked:
-            try:
-                if int(age) < 0 or int(age) >99:
-                    st.warning("Invalid input")
-            except:pass
-        city=  st.selectbox("Enter your city", israeli_cities)    
-        amount_invested= st.text_input("Enter the amount you want to invest")
+        age =""
+        city =""
+        amount_invested = ""
         
         users[username] = user_data
         users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
@@ -79,8 +72,6 @@ def sign_in(username, password):
             user_data = users.get(username)    
             if user_data and user_data.get("password") == password:
                 additional_info = users.get(f"{username}_info")
-                
-               
                 d = {
                     'Username': username,
                     'Password': user_data['password'],
@@ -90,6 +81,7 @@ def sign_in(username, password):
                 }
                 df = pd.DataFrame([d])
                 st.table(df)
+                st.snow()
                 return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")

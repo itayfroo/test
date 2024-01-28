@@ -47,7 +47,7 @@ def sign_up(username, password, additional_info="default_value"):
     elif password=="":
         st.warning("You have to enter a password")
     else:
-        user_data = {"password": password}
+        user_data = {"username": username,"password": password}
         
         age= st.text_input("Enter your age")
         city= st.text_input("Enter your city name")
@@ -71,8 +71,8 @@ def sign_in(username, password):
                 additional_info = users.get(f"{username}_info")
                 st.success(f"Welcome, {username}! Additional info: {additional_info}")
                 d = {
-                    'Username': user_data.key(0),
-                    'Password': user_data,
+                    'Username': user_data[0],
+                    'Password': user_data[1],
                     'Age': f"{username}_info"[0],
                     'City':f"{username}_info"[1],
                     'Amount invested':f"{username}_info"[2]

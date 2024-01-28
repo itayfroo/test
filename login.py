@@ -78,7 +78,7 @@ def sign_in(username, password):
                     'City':additional_info['City'],
                     'Amount invested':additional_info['Amount_invested']
                 }
-                df = pd.DataFrame(data=d)
+                df = pd.DataFrame([d])
                 st.table(df)
                 return True
             else:

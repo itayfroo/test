@@ -53,8 +53,9 @@ def sign_up(username, password, additional_info="default_value"):
         city= st.text_input("Enter your city name")
         amount_invested= st.text_input("Enter the amount you want to invest")
         
-        users[additional_info] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+        
         users[username] = user_data
+        users[additional_info] = {'Age':age,'City':city,'Amount_invested':amount_invested}
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success("You have successfully signed up!")
@@ -74,8 +75,6 @@ def sign_in(username, password):
                     'Age': additional_info[0],
                     'City':additional_info[1],
                     'Amount invested':additional_info[2]
-                    
-                    
                 }
                 df = pd.DataFrame(data=d)
                 st.table(df)

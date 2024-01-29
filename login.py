@@ -66,6 +66,7 @@ def sign_up(username, password, additional_info="default_value"):
 
 
 def sign_in(username, password):
+    users ={}
     if user_exists(username):
         with open(json_file_path, "r") as file:
             users = json.load(file)
@@ -107,6 +108,10 @@ def sign_in(username, password):
                             additional_info['Amount_invested']=int(amount_invested)
                             st.balloons()
                     except:st.warning("Invalid input")
+                users[username] = user_data
+                users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+                with open(json_file_path, "w") as file:
+                    json.dump(users, file)
                 d = {
                     'Username': username,
                     'Password': user_data['password'],

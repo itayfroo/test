@@ -84,29 +84,35 @@ def sign_in(username, password):
                
                 st.title("User info")
                 from israelcities import israeli_cities
-                age= st.text_input("Enter your age")
-                st.button('Okay', on_click=click_button)
-                if st.session_state.clicked:
-                    try:
-                        if int(age) < 0 or int(age) >99:
-                            st.warning("Invalid input")
-                        else: 
-                            additional_info['Age']=int(age)
-                            st.balloons()
-                    except:st.warning("Invalid input")
-                city=  st.selectbox("Enter your city", israeli_cities)
-                
-                additional_info['City'] = city
-                amount_invested= st.text_input("Enter the amount you want to invest")
-                st.button('Confirm', on_click=click_button)
-                if st.session_state.clicked:
-                    try:
-                        if int(amount_invested) < 0 or int(amount_invested) >99:
-                            st.warning("Invalid input")
-                        else: 
-                            additional_info['Amount_invested']=int(amount_invested)
-                            st.snow()
-                    except:st.warning("Invalid input")
+                with open(r"C:\Users\user\Documents\test\users.json", "r") as file:
+                    data = json.load(file)
+                with open(r"C:\Users\user\Documents\test\users.json", "w") as file:
+                    json.dump(data,file,indent=2)
+                with open(r"C:\Users\user\Documents\test\users.json", "w") as file:
+                    
+                    age= st.text_input("Enter your age")
+                    st.button('Okay', on_click=click_button)
+                    if st.session_state.clicked:
+                        try:
+                            if int(age) < 0 or int(age) >99:
+                                st.warning("Invalid input")
+                            else: 
+                                additional_info['Age']=int(age)
+                                st.balloons()
+                        except:st.warning("Invalid input")
+                    city=  st.selectbox("Enter your city", israeli_cities)
+                    
+                    additional_info['City'] = city
+                    amount_invested= st.text_input("Enter the amount you want to invest")
+                    st.button('Confirm', on_click=click_button)
+                    if st.session_state.clicked:
+                        try:
+                            if int(amount_invested) < 0 or int(amount_invested) >99:
+                                st.warning("Invalid input")
+                            else: 
+                                additional_info['Amount_invested']=int(amount_invested)
+                                st.snow()
+                        except:st.warning("Invalid input")
                 d = {
                     'Username': username,
                     'Password': user_data['password'],

@@ -101,7 +101,7 @@ def sign_in(username, password):
                 st.button('Confirm', on_click=click_button)
                 if st.session_state.clicked:
                     try:
-                        if int(amount_invested) < 0 or int(amount_invested) >99:
+                        if int(amount_invested) < 0:
                             st.warning("Invalid input")
                         else: 
                             additional_info['Amount_invested']=int(amount_invested)

@@ -73,16 +73,8 @@ def sign_in(username, password):
             user_data = users.get(username)    
             if user_data and user_data.get("password") == password:
                 additional_info = users.get(f"{username}_info")
-                d = {
-                    'Username': username,
-                    'Password': user_data['password'],
-                    'Age': additional_info['Age'],
-                    'City':additional_info['City'],
-                    'Amount invested':additional_info['Amount_invested']
-                }
-                df = pd.DataFrame([d])
-                st.table(df)
-               
+                
+                st.caption(f"welcome back, {username}")
                 st.title("User info")
                 from israelcities import israeli_cities
                 age= st.text_input("Enter your age")

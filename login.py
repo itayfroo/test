@@ -105,7 +105,7 @@ def sign_in(username, password):
                             st.warning("Invalid input")
                         else: 
                             additional_info['Amount_invested']=int(amount_invested)
-                            st.snow()
+                            st.balloons()
                     except:st.warning("Invalid input")
                 d = {
                     'Username': username,

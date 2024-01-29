@@ -75,7 +75,7 @@ def sign_in(username, password):
                 additional_info = users.get(f"{username}_info")
                 
                 st.caption(f"welcome back, {username}")
-                st.title("User info")
+                st.write("User info")
                 from israelcities import israeli_cities
                 age= st.text_input("Enter your age")
                 st.button('Okay', on_click=click_button)

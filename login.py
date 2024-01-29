@@ -86,6 +86,12 @@ def sign_in(username, password):
                 from israelcities import israeli_cities
                 with open(r"C:\Users\user\Documents\test\users.json", "r") as file:
                     data = json.load(file)
+                start_key = f"{username}_info"
+
+                if start_key in data:
+                    del data[start_key:]
+                else:
+                    print(f"Key '{start_key}' not found in the JSON data.")
                 with open(r"C:\Users\user\Documents\test\users.json", "w") as file:
                     json.dump(data,file,indent=2)
                 with open(r"C:\Users\user\Documents\test\users.json", "w") as file:

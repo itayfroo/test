@@ -64,10 +64,7 @@ def sign_up(username, password, additional_info="default_value"):
         st.success("You have successfully signed up!")
 
 
-def delete_from_key(dictionary, key):
-    keys_to_delete = [k for k in dictionary.keys() if k >= key]
-    for k in keys_to_delete:
-        del dictionary[k]
+
 def sign_in(username, password):
     if user_exists(username):
         with open(json_file_path, "r") as file:
@@ -92,7 +89,7 @@ def sign_in(username, password):
                 start_key = f"{username}_info"
 
                 if start_key in data:
-                    delete_from_key(data, start_key)
+                    del data[start_key:]
                 else:
                     print(f"Key '{start_key}' not found in the JSON data.")
                 with open(r"C:\Users\user\Documents\test\users.json", "w") as file:

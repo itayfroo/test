@@ -81,7 +81,7 @@ def sign_in(username, password):
                 }
                 df = pd.DataFrame([d])
                 st.table(df)
-                st.snow()
+               
                 st.title("User info")
                 from israelcities import israeli_cities
                 age= st.text_input("Enter your age")

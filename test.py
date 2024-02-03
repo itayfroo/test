@@ -285,6 +285,7 @@ def stockanalyzer():
                     plot_stock_data(stock_data)
                     lowest_point = stock_data['Close'].min()
                     highest_point = stock_data['Close'].max()
+                    today_point = stock_data['Close'][-1]
                     chart_data = pd.DataFrame({
                                                     'Date': stock_data.index,
                                                     'Stock Price': stock_data['Close'],
@@ -292,8 +293,9 @@ def stockanalyzer():
                                                     'Highest Point': highest_point
                                             })
                     st.line_chart(chart_data.set_index('Date'))
-                    st.success(f"Highest Stock Price: ${round(highest_point, 2)}")
-                    st.warning(f"Lowest Stock Price: ${round(lowest_point, 2)}")
+                    st.info(f"Today's Stock Price: {round(today_point, 2)}$")
+                    st.success(f"Highest Stock Price: {round(highest_point, 2)}$")
+                    st.warning(f"Lowest Stock Price: {round(lowest_point, 2)}$")
                     try:
                         with st.spinner("Performing predictions..."):
                             predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
